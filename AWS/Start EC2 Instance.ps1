@@ -17,5 +17,11 @@ else {
     Install-Module -Name AWS.Tools.EC2
 }
 
+# Setup credentials if not stored (manual)
+# Set-AWSCredential -AccessKey xx -SecretKey xx -StoreAs Automation  
+
+# Sign in with stored ec2-cli IAM
+Set-AWSCredential -ProfileName Automation
+
 # List instances Available
 Write-Host "Listing available Instances"
