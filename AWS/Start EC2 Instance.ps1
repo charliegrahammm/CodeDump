@@ -1,3 +1,22 @@
+<# 
+ ██████╗██╗  ██╗ █████╗ ██████╗ ██╗     ██╗███████╗     ██████╗ ██████╗  █████╗ ██╗  ██╗ █████╗ ███╗   ███╗
+██╔════╝██║  ██║██╔══██╗██╔══██╗██║     ██║██╔════╝    ██╔════╝ ██╔══██╗██╔══██╗██║  ██║██╔══██╗████╗ ████║
+██║     ███████║███████║██████╔╝██║     ██║█████╗      ██║  ███╗██████╔╝███████║███████║███████║██╔████╔██║
+██║     ██╔══██║██╔══██║██╔══██╗██║     ██║██╔══╝      ██║   ██║██╔══██╗██╔══██║██╔══██║██╔══██║██║╚██╔╝██║
+╚██████╗██║  ██║██║  ██║██║  ██║███████╗██║███████╗    ╚██████╔╝██║  ██║██║  ██║██║  ██║██║  ██║██║ ╚═╝ ██║
+ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝
+                                                                                                           
+This script will automatically pull a list of EC2 instances using the credentials you set up in the region you configure. It will then ask you which instance you wish to start.
+
+It uses the AWS CLI to do this so you will need to run as Administrator. If you dont run as admin, the script will self-elevate.
+
+You will be best off setting the below: 
+
+Access Key ID: <YOUR ACCESS KEY ID>
+Secret Access Key: <YOUR SECRET ACCESS KEY>
+Default Region Name: eu-west-2
+Default Output Format: table #>
+
 # This will self elevate the script with a UAC prompt since this script needs to be run as an Administrator in order to function properly.
 if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]'Administrator')) {
     Write-Host "You didn't run this script as an Administrator. This script will self elevate to run as an Administrator and continue." -ForegroundColor White -BackgroundColor Red 
@@ -20,42 +39,35 @@ if ($r -eq $null) {
     $arguments = "/i `"C:\AWSCLIV2.msi`" /quiet"
     Start-Process msiexec.exe -ArgumentList $arguments -Wait
     $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
-    aws --version
 } 
 else {
     Write-Host "AWS CLI exists" -ForegroundColor White -BackgroundColor Green
     $arguments = "/i `"C:\AWSCLIV2.msi`" /quiet"
     Start-Process msiexec.exe -ArgumentList $arguments -Wait
     $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
-    aws --version
 }
 
-# Setup credentials if not stored
-<# $accessKey 
-$secretKey
-$region = eu-west-2
-$outputFormat = json #>
-
-aws configure --profile Automation
-
-<# # Setup credentials if not stored
-$testCred = Get-AWSCredential -ProfileName Automation
-
-if ("Amazon.Runtime.BasicAWSCredentials" -eq $testCred) {
-    Write-Host "Profile exists" -ForegroundColor White -BackgroundColor Green
+# Configure credentials if not already
+if (Test-Path -Path $env:userprofile\.aws\credentials -PathType Leaf) {
+    Write-Host "AWS credentials found" -ForegroundColor White -BackgroundColor Green
 } 
 else {
-    Write-Host "Profile does not exist" -ForegroundColor White -BackgroundColor Red 
-    #    $accessKey = Read-Host -Prompt "Enter your Access Key"
-    #    $secretKey = Read-Host -Prompt "Enter your Secret Key"
-    $accessKey = "AKIARSCFFDZIJC67XG75"
-    $secretKey = "XskUr+sKTmM0hWAbArDIDI3+xaKzyfwTSE9mF+6G"
-
-    Set-AWSCredential -AccessKey $accessKey -SecretKey $secretKey -StoreAs Automation  
+    Write-Host "AWS Credentials missing" -ForegroundColor White -BackgroundColor Red
+    aws configure
 }
 
-# Sign in with stored ec2-cli IAM
-Set-AWSCredential -ProfileName Automation
+# Show list of instance names and allow user to choose one
+$choice = aws ec2 describe-instances --query "Reservations[].Instances[].Tags[].Value" | Out-GridView -PassThru
 
-# List instances Available
-Write-Host "Listing available Instances" #>
+if ($choice) {
+    # if the user selected an item from the DGV and pressed `OK`
+    $chosenInstance = $choice.DistinguishedName
+}
+else {
+    # user clicked `Cancel` or closed the DGV
+    Write-Host "User Cancelled" -ForegroundColor White -BackgroundColor Red
+    exit
+}
+
+# Extract InstanceID for chosen instance
+aws ec2 describe-instances --filters Name=tag:Name,Values=$chosenInstance --query 'Reservations[*].Instances[*].{Instance:InstanceId}'
