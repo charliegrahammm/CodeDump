@@ -84,3 +84,5 @@ $chosenInstanceID = $choiceInstanceID.replace("- - Instance: ", "")
 # Start chosen instance
 Write-Host "Starting chosen instance..." -ForegroundColor White -BackgroundColor Green
 aws ec2 start-instances --instance-ids $chosenInstanceID
+
+pause

@@ -84,3 +84,5 @@ $chosenInstanceID = $choiceInstanceID.replace("- - Instance: ", "")
 # Start chosen instance
 Write-Host "Stopping chosen instance..." -ForegroundColor White -BackgroundColor Green
 aws ec2 stop-instances --instance-ids $chosenInstanceID
+
+pause
