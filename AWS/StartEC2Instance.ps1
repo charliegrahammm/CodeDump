@@ -34,10 +34,10 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 }
 
 # Install Modules if not detected
-$r = Get-WmiObject Win32_Product | Where { $_.Name -match 'AWS Command Line Interface v2' }
+$r = Get-WmiObject Win32_Product | Where-Object { $_.Name -match 'AWS Command Line Interface v2' }
 
 # Install AWS CLI
-if ($r -eq $null) {
+if ($null -eq $r) {
     Write-Host "AWS CLI does not exist, installing..." -ForegroundColor White -BackgroundColor Red 
     $command = "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12"
     Invoke-Expression $command
@@ -84,4 +84,3 @@ $chosenInstanceID = $choiceInstanceID.replace("- - Instance: ", "")
 # Start chosen instance
 Write-Host "Starting chosen instance..." -ForegroundColor White -BackgroundColor Green
 aws ec2 start-instances --instance-ids $chosenInstanceID
-

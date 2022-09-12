@@ -7,7 +7,7 @@
  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝
 
 .SYNOPSIS  
-    This script will automatically pull a list of EC2 instances using the credentials you set up in the region you configure. It will then ask you which instance you wish to start.  
+    This script will automatically pull a list of EC2 instances using the credentials you set up in the region you configure. It will then ask you which instance you wish to stop.  
 .DESCRIPTION  
     It uses the AWS CLI to do this so you will need to run as Administrator. If you dont run as admin, the script will self-elevate.
 
@@ -34,10 +34,10 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 }
 
 # Install Modules if not detected
-$r = Get-WmiObject Win32_Product | Where { $_.Name -match 'AWS Command Line Interface v2' }
+$r = Get-WmiObject Win32_Product | Where-Object { $_.Name -match 'AWS Command Line Interface v2' }
 
 # Install AWS CLI
-if ($r -eq $null) {
+if ($null -eq $r) {
     Write-Host "AWS CLI does not exist, installing..." -ForegroundColor White -BackgroundColor Red 
     $command = "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12"
     Invoke-Expression $command
@@ -82,6 +82,5 @@ $choiceInstanceID = aws ec2 describe-instances --filters Name=tag:Name,Values=$c
 $chosenInstanceID = $choiceInstanceID.replace("- - Instance: ", "")
 
 # Start chosen instance
-Write-Host "Starting chosen instance..." -ForegroundColor White -BackgroundColor Green
+Write-Host "Stopping chosen instance..." -ForegroundColor White -BackgroundColor Green
 aws ec2 stop-instances --instance-ids $chosenInstanceID
-
