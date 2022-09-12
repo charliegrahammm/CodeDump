@@ -9,16 +9,16 @@
 .SYNOPSIS  
     This script will automatically pull a list of EC2 instances using the credentials you set up in the region you configure. It will then ask you which instance you wish to start.  
 .DESCRIPTION  
-It uses the AWS CLI to do this so you will need to run as Administrator. If you dont run as admin, the script will self-elevate.
+    It uses the AWS CLI to do this so you will need to run as Administrator. If you dont run as admin, the script will self-elevate.
 
-You will be best off setting the below: 
+    You will be best off setting the below: 
 
-Access Key ID: <YOUR ACCESS KEY ID>
-Secret Access Key: <YOUR SECRET ACCESS KEY>
-Default Region Name: eu-west-2
-Default Output Format: table
+    Access Key ID: <YOUR ACCESS KEY ID>
+    Secret Access Key: <YOUR SECRET ACCESS KEY>
+    Default Region Name: eu-west-2
+    Default Output Format: table
 .NOTES  
-    File Name  : count-gdshows.ps1  
+    File Name  : StopEC2Instance.ps1  
     Author     : Charlie Graham 
     Requires   : PowerShell V2, AWS CLI
 #>
@@ -58,7 +58,9 @@ if (Test-Path -Path $env:userprofile\.aws\credentials -PathType Leaf) {
     Write-Host "AWS credentials found" -ForegroundColor White -BackgroundColor Green
 } 
 else {
-    Write-Host "AWS Credentials missing" -ForegroundColor White -BackgroundColor Red
+    Write-Host "AWS Credentials missing, please specify..." -ForegroundColor White -BackgroundColor Red
+    aws configure set default.region us-west-2
+    aws configure set default.output yaml
     aws configure
 }
 
@@ -66,14 +68,20 @@ else {
 $choice = aws ec2 describe-instances --query "Reservations[].Instances[].Tags[].Value" | Out-GridView -PassThru
 
 if ($choice) {
-    # if the user selected an item from the DGV and pressed `OK`
-    $chosenInstance = $choice.DistinguishedName
+    # If an item was selected and user pressed `OK`
+    $chosenInstance = $choice.replace("- ", "")
 }
 else {
-    # user clicked `Cancel` or closed the DGV
+    # If user clicked `Cancel` or closed the window
     Write-Host "User Cancelled" -ForegroundColor White -BackgroundColor Red
     exit
 }
 
-# Extract InstanceID for chosen instance
-aws ec2 describe-instances --filters Name=tag:Name,Values=$chosenInstance --query 'Reservations[*].Instances[*].{Instance:InstanceId}'
+# Extract InstanceID for chosen instance and cleanup
+$choiceInstanceID = aws ec2 describe-instances --filters Name=tag:Name,Values=$chosenInstance --query 'Reservations[*].Instances[*].{Instance:InstanceId}'
+$chosenInstanceID = $choiceInstanceID.replace("- - Instance: ", "")
+
+# Start chosen instance
+Write-Host "Starting chosen instance..." -ForegroundColor White -BackgroundColor Green
+aws ec2 stop-instances --instance-ids $chosenInstanceID
+
