@@ -8,20 +8,37 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     Exit
 }
 
+# Install Modules if not detected
+$r = Get-WmiObject Win32_Product | Where { $_.Name -match 'AWS Command Line Interface v2' }
 
-## Install Modules if not detected
-# Install AWS.Tools.EC2
-if (Get-Module -ListAvailable -Name AWS.Tools.EC2) {
-    Write-Host "Module exists" -ForegroundColor White -BackgroundColor Green
-    Import-Module AWS.Tools.EC2
+# Install AWS CLI
+if ($r -eq $null) {
+    Write-Host "AWS CLI does not exist, installing..." -ForegroundColor White -BackgroundColor Red 
+    $command = "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12"
+    Invoke-Expression $command
+    Invoke-WebRequest -Uri "https://awscli.amazonaws.com/AWSCLIV2.msi" -Outfile C:\AWSCLIV2.msi
+    $arguments = "/i `"C:\AWSCLIV2.msi`" /quiet"
+    Start-Process msiexec.exe -ArgumentList $arguments -Wait
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
+    aws --version
 } 
 else {
-    Write-Host "Module does not exist, installing..." -ForegroundColor White -BackgroundColor Red 
-    Install-Module -Name AWS.Tools.EC2
-    Import-Module AWS.Tools.EC2
+    Write-Host "AWS CLI exists" -ForegroundColor White -BackgroundColor Green
+    $arguments = "/i `"C:\AWSCLIV2.msi`" /quiet"
+    Start-Process msiexec.exe -ArgumentList $arguments -Wait
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
+    aws --version
 }
 
 # Setup credentials if not stored
+<# $accessKey 
+$secretKey
+$region = eu-west-2
+$outputFormat = json #>
+
+aws configure --profile Automation
+
+<# # Setup credentials if not stored
 $testCred = Get-AWSCredential -ProfileName Automation
 
 if ("Amazon.Runtime.BasicAWSCredentials" -eq $testCred) {
@@ -41,4 +58,4 @@ else {
 Set-AWSCredential -ProfileName Automation
 
 # List instances Available
-Write-Host "Listing available Instances"
+Write-Host "Listing available Instances" #>
