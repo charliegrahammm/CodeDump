@@ -5,9 +5,10 @@
 ██║     ██╔══██║██╔══██║██╔══██╗██║     ██║██╔══╝      ██║   ██║██╔══██╗██╔══██║██╔══██║██╔══██║██║╚██╔╝██║
 ╚██████╗██║  ██║██║  ██║██║  ██║███████╗██║███████╗    ╚██████╔╝██║  ██║██║  ██║██║  ██║██║  ██║██║ ╚═╝ ██║
  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝
-                                                                                                           
-This script will automatically pull a list of EC2 instances using the credentials you set up in the region you configure. It will then ask you which instance you wish to start.
 
+.SYNOPSIS  
+    This script will automatically pull a list of EC2 instances using the credentials you set up in the region you configure. It will then ask you which instance you wish to start.  
+.DESCRIPTION  
 It uses the AWS CLI to do this so you will need to run as Administrator. If you dont run as admin, the script will self-elevate.
 
 You will be best off setting the below: 
@@ -15,7 +16,12 @@ You will be best off setting the below:
 Access Key ID: <YOUR ACCESS KEY ID>
 Secret Access Key: <YOUR SECRET ACCESS KEY>
 Default Region Name: eu-west-2
-Default Output Format: table #>
+Default Output Format: table
+.NOTES  
+    File Name  : count-gdshows.ps1  
+    Author     : Charlie Graham 
+    Requires   : PowerShell V2, AWS CLI
+#>
 
 # This will self elevate the script with a UAC prompt since this script needs to be run as an Administrator in order to function properly.
 if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]'Administrator')) {
