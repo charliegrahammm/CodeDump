@@ -8,17 +8,34 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     Exit
 }
 
-# Install Module if not detected
-if (Get-Module -ListAvailable -Name SomeModule) {
+
+## Install Modules if not detected
+# Install AWS.Tools.EC2
+if (Get-Module -ListAvailable -Name AWS.Tools.EC2) {
     Write-Host "Module exists" -ForegroundColor White -BackgroundColor Green
+    Import-Module AWS.Tools.EC2
 } 
 else {
     Write-Host "Module does not exist, installing..." -ForegroundColor White -BackgroundColor Red 
     Install-Module -Name AWS.Tools.EC2
+    Import-Module AWS.Tools.EC2
 }
 
-# Setup credentials if not stored (manual)
-# Set-AWSCredential -AccessKey xx -SecretKey xx -StoreAs Automation  
+# Setup credentials if not stored
+$testCred = Get-AWSCredential -ProfileName Automation
+
+if ("Amazon.Runtime.BasicAWSCredentials" -eq $testCred) {
+    Write-Host "Profile exists" -ForegroundColor White -BackgroundColor Green
+} 
+else {
+    Write-Host "Profile does not exist" -ForegroundColor White -BackgroundColor Red 
+    #    $accessKey = Read-Host -Prompt "Enter your Access Key"
+    #    $secretKey = Read-Host -Prompt "Enter your Secret Key"
+    $accessKey = "AKIARSCFFDZIJC67XG75"
+    $secretKey = "XskUr+sKTmM0hWAbArDIDI3+xaKzyfwTSE9mF+6G"
+
+    Set-AWSCredential -AccessKey $accessKey -SecretKey $secretKey -StoreAs Automation  
+}
 
 # Sign in with stored ec2-cli IAM
 Set-AWSCredential -ProfileName Automation
