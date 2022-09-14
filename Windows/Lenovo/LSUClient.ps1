@@ -46,6 +46,9 @@ else {
     Import-Module LSUClient
 }
 
+# Show system info
+gcim Win32_ComputerSystem | Format-List Manufacturer, Model, SystemFamily 
+
 # Gather updates in a loop
 Write-Host "Gathering updates..." -ForegroundColor Green
 $MaxRounds = 3
