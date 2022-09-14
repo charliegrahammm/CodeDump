@@ -16,10 +16,45 @@
     Requires   : PowerShell V2, LSUClient, NuGet
 #>
 
+# Force TLS 1.2
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+# Allow PSGallery Repository
+Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
+
+# Install NuGet if not already
+Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201
+
 # Install LSUClient if not already
 if (Get-Module -ListAvailable -Name LSUClient) {
-    Write-Host "LSUClient Module exists" -ForegroundColor White -BackgroundColor Green
+    Write-Output "LSUClient Module exists" 
+    Import-Module LSUClient
 } 
 else {
-    Write-Host "LSUClient does not exist" -ForegroundColor White -BackgroundColor Red
+    Write-Output "LSUClient does not exist"
+    Install-Module -Name LSUClient
+    Import-Module LSUClient
 }
+
+# Gather updates in a loop
+Write-Output "Gathering updates..."
+$MaxRounds = 3
+for ($Round = 1; $Round -le $MaxRounds; $Round++) {
+    Write-Output "Starting round $Round"
+    $updates = Get-LSUpdate | Where-Object { $_.Installer.Unattended }
+    Write-Output "$($updates.Count) updates found"
+
+    if ($updates.Count -eq 0) {
+        break;
+    }
+
+    # Download them all to the local disk
+    $updates | Save-LSUpdate
+
+    # Then install
+    $updates | Install-LSUpdate
+}
+
+# Cleanup Files
+Write-Output "Cleaning up..."
+Remove-Item -Path $env:TEMP\LSUPackages -Recurse
