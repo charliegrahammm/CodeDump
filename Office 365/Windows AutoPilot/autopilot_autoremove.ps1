@@ -1,20 +1,20 @@
-# +----------------------------------------+---------------------------------------------+
-# |  ██████╗ ██████╗ ██╗  ██╗██╗           | Title:   autopilot_autoremove.ps1           | 
-# | ██╔═══██╗██╔══██╗██║  ██║██║           | Author:  Charlie Graham                     |
-# | ██║   ██║██████╔╝███████║██║           | Date:    05/09/2022                         |
-# | ██║▄▄ ██║██╔═══╝ ██╔══██║██║           | Version: 1.0                                |
-# | ╚██████╔╝██║     ██║  ██║███████╗      |                                             |
-# |  ╚══▀▀═╝ ╚═╝     ╚═╝  ╚═╝╚══════╝      |                                             |
-# +----------------------------------------+---------------------------------------------+
-# | Description:                                                                         |
-# | Remove this device from Autopilot Intune and Azure AD.                               |
-# |                                                                                      |
-# | Revision History:                                                                    |
-# |                                                                                      |
-# | 05/09/2022 - Charlie Graham - Version 1.0                                            |
-# |  - Script Created                                                                    |
-# |                                                                                      |
-# +--------------------------------------------------------------------------------------+
+<# 
+ ██████╗██╗  ██╗ █████╗ ██████╗ ██╗     ██╗███████╗     ██████╗ ██████╗  █████╗ ██╗  ██╗ █████╗ ███╗   ███╗
+██╔════╝██║  ██║██╔══██╗██╔══██╗██║     ██║██╔════╝    ██╔════╝ ██╔══██╗██╔══██╗██║  ██║██╔══██╗████╗ ████║
+██║     ███████║███████║██████╔╝██║     ██║█████╗      ██║  ███╗██████╔╝███████║███████║███████║██╔████╔██║
+██║     ██╔══██║██╔══██║██╔══██╗██║     ██║██╔══╝      ██║   ██║██╔══██╗██╔══██║██╔══██║██╔══██║██║╚██╔╝██║
+╚██████╗██║  ██║██║  ██║██║  ██║███████╗██║███████╗    ╚██████╔╝██║  ██║██║  ██║██║  ██║██║  ██║██║ ╚═╝ ██║
+ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝
+
+.SYNOPSIS  
+    This script does automatically extracts data from a machine and adds it to Auto Pilot.
+.DESCRIPTION  
+    Extract device's hardware hash and serial number and upload to Auto Pilot.  
+.NOTES  
+    File Name  : autopilot_autoremove.ps1  
+    Author     : Charlie Graham 
+    Requires   : NuGet, PSGallery, Get-WindowsAutopilotInfo
+#>
 
 # This will self elevate the script with a UAC prompt since this script needs to be run as an Administrator in order to function properly.
 If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]'Administrator')) {
