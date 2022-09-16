@@ -48,6 +48,5 @@ for ($Round = 1; $Round -le $MaxRounds; $Round++) {
     if ($updates.Count -eq 0) {
         break;
     }
-
 }
 
