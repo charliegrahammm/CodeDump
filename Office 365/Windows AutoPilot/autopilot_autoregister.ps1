@@ -7,7 +7,7 @@
  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝
 
 .SYNOPSIS  
-    This script does automatically extracts data from a machine and adds it to Auto Pilot.
+    This script automatically extracts data from a machine and adds it to Auto Pilot.
 .DESCRIPTION  
     Extract device's hardware hash and serial number and upload to Auto Pilot.  
 .NOTES  
