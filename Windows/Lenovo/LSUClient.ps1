@@ -9,7 +9,7 @@
 .SYNOPSIS  
     This script will automatically pull Lenovo System Updates from https://download.lenovo.com and install them silently. 
 .DESCRIPTION  
-   The standard version of this script is designed to be ran manually.
+    The standard version of this script is designed to be ran manually.
 .NOTES  
     File Name  : LSUClient.ps1  
     Author     : Charlie Graham 
@@ -54,8 +54,9 @@ Write-Host "Gathering updates..." -ForegroundColor Green
 $MaxRounds = 3
 for ($Round = 1; $Round -le $MaxRounds; $Round++) {
     Write-Host "Starting round $Round"
-    $updates = Get-LSUpdate
+    $updates = Get-LSUpdate -Verbose
     Write-Host "$($updates.Count) updates found"
+    Write-Host $updates
 
     if ($updates.Count -eq 0) {
         break;
