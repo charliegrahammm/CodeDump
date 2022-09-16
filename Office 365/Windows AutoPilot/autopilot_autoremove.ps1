@@ -7,9 +7,9 @@
  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝
 
 .SYNOPSIS  
-    This script does automatically extracts data from a machine and adds it to Auto Pilot.
+    This script automatically extracts data from a machine and removes it from Auto Pilot.
 .DESCRIPTION  
-    Extract device's hardware hash and serial number and upload to Auto Pilot.  
+    Extract device's hardware hash and serial number and remove from Auto Pilot.  
 .NOTES  
     File Name  : autopilot_autoremove.ps1  
     Author     : Charlie Graham 
