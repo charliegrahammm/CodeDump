@@ -60,7 +60,7 @@ for ($Round = 1; $Round -le $MaxRounds; $Round++) {
 Write-Output "Cleaning up..."
 Remove-Item -Path $env:TEMP\LSUPackages -Recurse
 
-# Gather updates in a loop after installation
+# Gather updates after installation
 Write-Output "Gathering updates..."
 $updates = Get-LSUpdate | Where-Object { $_.Installer.Unattended } -Verbose
 Write-Output "$($updates.Count) updates found"
