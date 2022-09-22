@@ -47,6 +47,7 @@ else {
 }
 
 # Clear previous job
+Write-Host "Clearing previous job..."
 Clear-WUJob
 
 # Run Windows Updates and reboot automatically
