@@ -46,5 +46,9 @@ else {
     Import-Module PSWindowsUpdate
 }
 
+# Clear previous job
+Clear-WUJob
+
 # Run Windows Updates and reboot automatically
+Write-Host "Installing updates..." 
 Install-WindowsUpdate -AcceptAll -AutoReboot
