@@ -26,6 +26,15 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     Exit
 }
 
+# Force TLS 1.2
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+# Allow PSGallery Repository
+Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
+
+# Install NuGet if not already
+Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201
+
 # Install PSWindowsUpdate if not already
 if (Get-Module -ListAvailable -Name PSWindowsUpdate) {
     Write-Host "PSWindowsUpdate Module exists" -ForegroundColor Green
