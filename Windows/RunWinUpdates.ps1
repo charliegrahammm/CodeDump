@@ -55,7 +55,6 @@ Write-Host "Checking for updates..."
 $updates = Get-WindowsUpdate
 Write-Host $updates.count updates available
 if ($updates.Count -eq 0) {
-    Write-Host "No updates found"
     Read-Host -Prompt "Press Enter to exit"
     break
 }
