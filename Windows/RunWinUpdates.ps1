@@ -50,6 +50,15 @@ else {
 Write-Host "Clearing previous job..."
 Clear-WUJob
 
+# Check for Windows Updates
+Write-Host "Checking for updates..."
+$updates = Get-WindowsUpdate
+if ($updates.Count -eq 0) {
+    Write-Host "No updates found"
+    Read-Host -Prompt "Press Enter to exit"
+    break
+}
+
 # Run Windows Updates and reboot automatically
 Write-Host "Installing updates..." 
 Install-WindowsUpdate -AcceptAll -AutoReboot
