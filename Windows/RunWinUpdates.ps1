@@ -38,6 +38,7 @@ Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201
 # Install PSWindowsUpdate if not already
 if (Get-Module -ListAvailable -Name PSWindowsUpdate) {
     Write-Host "PSWindowsUpdate Module exists" -ForegroundColor Green
+    Update-Module -Name PSWindowsUpdate
     Import-Module PSWindowsUpdate
 } 
 else {
