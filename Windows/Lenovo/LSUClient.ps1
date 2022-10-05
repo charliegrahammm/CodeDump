@@ -38,6 +38,7 @@ Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201
 # Install LSUClient if not already
 if (Get-Module -ListAvailable -Name LSUClient) {
     Write-Host "LSUClient Module exists" -ForegroundColor Green
+    Update-Module -Name LSUClient
     Import-Module LSUClient
 } 
 else {
