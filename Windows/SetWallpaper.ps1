@@ -9,11 +9,11 @@
 .SYNOPSIS  
     This script sets the desktop wallpaper for all monitors as C:\temp\wallpaper.jpg
 .DESCRIPTION  
-    First copy an image to C:\Temp\. Must be ran as the logged in user.
+    First copy an image (jpeg or jpg) to C:\Temp\. Must be ran as the logged in user.
 .NOTES  
     File Name  : SetWallpaper.ps1  
     Author     : Charlie Graham 
-    Requires   : PowerShell v2, FP.SetWallpaper
+    Requires   : PowerShell v2
 #>
 
 # Create function
@@ -60,10 +60,10 @@ Function Set-Wallpaper {
 }
 
 # Check if file exists, rename if it does.
-$filename = "C:\temp\*.jpg"
+$filename = "C:\temp\*.jpg", "C:\temp\*.jpeg"
 if (Test-Path -path $filename) {
     Write-Host "File exists, renaming..." -ForegroundColor Green
-    Get-ChildItem "C:\temp\*.jpg" | Rename-Item -NewName wallpaper.jpg -Force
+    Get-ChildItem "C:\temp\*.jpg", "C:\temp\*.jpeg" | Rename-Item -NewName wallpaper.jpg -Force
 } 
 else {
     Write-Host "File does not exist" -ForegroundColor Red
@@ -76,8 +76,4 @@ Set-Wallpaper -Image C:\temp\wallpaper.jpg
 
 # Post-Script Cleanup
 Write-Host "Cleaning up..."
-Remove-Item C:\Temp\*.jpg
-
-
-
-
+Remove-Item C:\Temp\wallpaper.jpg
