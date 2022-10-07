@@ -7,7 +7,7 @@
  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝
 
 .SYNOPSIS  
-    This script removes all Outlook 2013, 2016 and 365 profiles from a machine.
+    This script removes all Outlook 2013, 2016 and 365 profiles from a machine for the logged in user.
 .DESCRIPTION  
     Removes all outlook profiles for the logged in user. Must be ran as the logged in user. It is recommended to reboot before and after this script has ran.
 .NOTES  
