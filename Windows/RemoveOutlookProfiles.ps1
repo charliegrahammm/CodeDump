@@ -42,14 +42,14 @@ Write-Host "Access is closing..." -BackgroundColor Green -ForegroundColor Black
 
 # Locate data files
 $TestPath = Test-Path -Path $Path\*.ost
-$GciPath =  Get-ChildItem -Path $Path -Recurse -Include *.ost,*.nst
+$GciPath = Get-ChildItem -Path $Path -Recurse -Include *.ost, *.nst
 
 # Remove data files
-if ($TestPath -eq $TRUE){
-Remove-Item $GciPath -EA SilentlyContinue
+if ($TestPath -eq $TRUE) {
+    Remove-Item $GciPath -EA SilentlyContinue
 }
-else{
-Write-Host ".OST not found, continuing..." -BackgroundColor Green -ForegroundColor Black
+else {
+    Write-Host ".OST not found, continuing..." -BackgroundColor Green -ForegroundColor Black
 }
 
 # Test key path
@@ -57,14 +57,14 @@ $TestPath16 = Test-Path -Path $Key16 -IsValid
 $TestPath15 = Test-Path -Path $Key15 -IsValid
 
 # Delete key
-if ($TestPath16 -eq $TRUE){
-Remove-Item $Key16 -Recurse -EA SilentlyContinue
-Write-Host "Outlook 2016 profiles are removed." -BackgroundColor Green -ForegroundColor Black
+if ($TestPath16 -eq $TRUE) {
+    Remove-Item $Key16 -Recurse -EA SilentlyContinue
+    Write-Host "Outlook 2016 profiles are removed." -BackgroundColor Green -ForegroundColor Black
 }
-elseif ($TestPath15 -eq $TRUE){
-Remove-Item $Key15 -Recurse -EA SilentlyContinue
-Write-Host "Outlook 2013 profiles are removed." -BackgroundColor Green -ForegroundColor Black
+elseif ($TestPath15 -eq $TRUE) {
+    Remove-Item $Key15 -Recurse -EA SilentlyContinue
+    Write-Host "Outlook 2013 profiles are removed." -BackgroundColor Green -ForegroundColor Black
 }
-else{
-Write-Host "Outlook 2016 and Outlook 2013 not found." -BackgroundColor Red -ForegroundColor Black
+else {
+    Write-Host "Outlook 2016 and Outlook 2013 not found." -BackgroundColor Red -ForegroundColor Black
 }
