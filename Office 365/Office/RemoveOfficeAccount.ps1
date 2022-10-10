@@ -49,10 +49,18 @@ catch { Write-Output "Failed to overwrite desktop-config.json" }
 Write-Output "Modify desktop-Config.Json - Finished"
 
 # Delete the Cookies file. This is a fix for when the joining as anonymous, and prevents the last used guest name from being reused.
-Get-ChildItem "$TeamsFolders\Cookies" | Remove-Item
+try {
+    Get-ChildItem "$TeamsFolders\Cookies" | Remove-Item
+}
+catch { Write-Output "Failed to delete the cookies file" }
+Write-Output "Delete cookies file - Finished"
 
 # Lastly delete the storage.json, this corrects some error that MSTeams otherwise would have when logging in again.
-Get-ChildItem "$TeamsFolders\storage.json" | Remove-Item
+try {
+    Get-ChildItem "$TeamsFolders\storage.json" | Remove-Item
+}
+catch { Write-Output "Failed to delete storage.json" }
+Write-Output "Delete storage.json - Finished"
 
 # Try to remove the Link School/Work account if there was one. It can be created if the first time you sign in, the user all
 $LocalPackagesFolder = "$env:LOCALAPPDATA\Packages"
