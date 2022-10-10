@@ -16,6 +16,9 @@
     Requires   : PowerShell v2
 #>
 
+# Kill Teams
+TASKKILL /F /IM TEAMS.EXE
+
 # Get users
 Write-Output "Gathering Users"
 $users = Get-ChildItem -Path "C:\Users"
