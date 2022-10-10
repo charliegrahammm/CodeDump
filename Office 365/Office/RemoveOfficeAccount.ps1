@@ -15,6 +15,9 @@
     Author     : Charlie Graham 
     Requires   : PowerShell v2
 #>
+# Kill Teams
+Stop-Process -Name Teams.exe -Force -EA SilentlyContinue
+Write-Output "Teams is closing..." 
 
 # Remove Reg Key
 $Regkeypath = "HKCU:\Software\Microsoft\Office\Teams" 
