@@ -23,7 +23,7 @@ $Key16 = "HKCU:\SOFTWARE\Microsoft\Office\16.0\Outlook\Profiles"
 $Key15 = "HKCU:\SOFTWARE\Microsoft\Office\15.0\Outlook\Profiles"
 
 # Kill Office Applications
-Stop-Process -Name OUTLOOK -Force -EA SilentlyContinue
+Stop-Process -Name OUTLOOK -Foarce -EA SilentlyContinue
 Write-Output "Outlook is closing..." 
 Stop-Process -Name EXCEL -Force -EA SilentlyContinue
 Write-Output "Excel is closing..." 
