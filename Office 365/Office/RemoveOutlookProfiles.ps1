@@ -24,21 +24,21 @@ $Key15 = "HKCU:\SOFTWARE\Microsoft\Office\15.0\Outlook\Profiles"
 
 # Kill Office Applications
 Stop-Process -Name OUTLOOK -Force -EA SilentlyContinue
-Write-Output "Outlook is closing..." -BackgroundColor Green -ForegroundColor Black
+Write-Output "Outlook is closing..." 
 Stop-Process -Name EXCEL -Force -EA SilentlyContinue
-Write-Output "Excel is closing..." -BackgroundColor Green -ForegroundColor Black
+Write-Output "Excel is closing..." 
 Stop-Process -Name WINWORD -Force -EA SilentlyContinue
-Write-Output "Word is closing..." -BackgroundColor Green -ForegroundColor Black
+Write-Output "Word is closing..." 
 Stop-Process -Name POWERPNT -Force -EA SilentlyContinue
-Write-Output "Powerpoint is closing..." -BackgroundColor Green -ForegroundColor Black
+Write-Output "Powerpoint is closing..." 
 Stop-Process -Name VISIO -Force -EA SilentlyContinue
-Write-Output "Visio is closing..." -BackgroundColor Green -ForegroundColor Black
+Write-Output "Visio is closing..." 
 Stop-Process -Name ONENOTE -Force -EA SilentlyContinue
-Write-Output "OneNote is closing..." -BackgroundColor Green -ForegroundColor Black
+Write-Output "OneNote is closing..." 
 Stop-Process -Name MSPUB -Force -EA SilentlyContinue
-Write-Output "Publisher is closing..." -BackgroundColor Green -ForegroundColor Black
+Write-Output "Publisher is closing..." 
 Stop-Process -Name MSACCESS -Force -EA SilentlyContinue
-Write-Output "Access is closing..." -BackgroundColor Green -ForegroundColor Black
+Write-Output "Access is closing..." 
 
 # Locate data files
 $TestPath = Test-Path -Path $Path\*.ost
@@ -59,12 +59,12 @@ $TestPath15 = Test-Path -Path $Key15 -IsValid
 # Delete key
 if ($TestPath16 -eq $TRUE) {
     Remove-Item $Key16 -Recurse -EA SilentlyContinue
-    Write-Output "Outlook 2016 profiles are removed." -BackgroundColor Green -ForegroundColor Black
+    Write-Output "Outlook 2016 profiles are removed."
 }
 elseif ($TestPath15 -eq $TRUE) {
     Remove-Item $Key15 -Recurse -EA SilentlyContinue
-    Write-Output "Outlook 2013 profiles are removed." -BackgroundColor Green -ForegroundColor Black
+    Write-Output "Outlook 2013 profiles are removed."
 }
 else {
-    Write-Output "Outlook 2016 and Outlook 2013 not found." -BackgroundColor Red -ForegroundColor Black
+    Write-Output "Outlook 2016 and Outlook 2013 not found."
 }
