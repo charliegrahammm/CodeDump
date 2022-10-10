@@ -11,7 +11,7 @@
 .DESCRIPTION  
     Removes all outlook profiles for the logged in user. Must be ran as the logged in user. It is recommended to reboot before and after this script has ran.
 .NOTES  
-    File Name  : RemoveOutlookProfiles.ps1  Black
+    File Name  : RemoveOutlookProfiles.ps1
     Author     : Charlie Graham 
     Requires   : PowerShell v2
 #>
