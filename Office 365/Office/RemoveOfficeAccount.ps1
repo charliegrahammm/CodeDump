@@ -16,7 +16,7 @@
     Requires   : PowerShell v2
 #>
 # Kill Teams
-Stop-Process -Name Teams.exe -Force -EA SilentlyContinue
+TASKKILL /F /IM TEAMS.EXE
 Write-Output "Teams is closing..." 
 
 # Remove Reg Key
