@@ -63,5 +63,4 @@ $ExistingGroups = Get-ADPrincipalGroupMembership $ADUser.SamAccountName | Select
         Write-Host "Added $UPN to $Group" -ForeGroundColor Green
     }
 }
-}
 Stop-Transcript
