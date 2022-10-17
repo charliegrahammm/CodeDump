@@ -48,7 +48,7 @@ else {
 }
 
 # Gather information
-$Users = Read-Host -Prompt 'Input file path of csv file - e.g "C:\Temp\users.csv"'
+$Users = Read-Host -Prompt 'Input file path of csv file - e.g C:\Temp\users.csv (no "")'
 $Group = Read-Host -Prompt 'Input AD group name'
 
 # Start transcript
