@@ -7,13 +7,13 @@
  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝
 
 .SYNOPSIS  
-    This script does...
+    This script extracts a list of users from AD with a specific UPN suffix.
 .DESCRIPTION  
-    <Insert Description>
+    Pulls users from AD with a specified UPN suffix and exports to C:\Temp\users.csv. Must be ran using domain administrator credentials.
 .NOTES  
-    File Name  : ScriptName.ps1  
+    File Name  : ExtractUsersWithSpecificUPNFromAD.ps1  
     Author     : Charlie Graham 
-    Requires   : <Required PS Version, modules etc.>
+    Requires   : PowerShell v2
 #>
 
 # This will self elevate the script with a UAC prompt since this script needs to be run as an Administrator in order to function properly.
