@@ -59,9 +59,9 @@ $ExtractedUsersBathASU = Get-ADUser -Filter "proxyaddresses -like '*$UPNSuffixBa
 ## Microgenetics
 $UPNSuffixMicrogenetics = "@microgenetics.co.uk"
 $ExtractedUsersMicrogenetics = Get-ADUser -Filter "proxyaddresses -like '*$UPNSuffixMicrogenetics' -and enabled -eq 'TRUE'" -Properties samaccountname,userprincipalname,enabled,proxyaddresses,company -SearchBase $OrgUnit | Select-Object samaccountname,userprincipalname,enabled,company, @{L = "ProxyAddresses"; E = { ($_.ProxyAddresses -like 'smtp:*') -join ";"}} 
-## Corsham Science
-$UPNSuffixCorshamScience = "@corshamscience.co.uk"
-$ExtractedUsersCorshamScience = Get-ADUser -Filter "proxyaddresses -like '*$UPNSuffixCorshamScience' -and enabled -eq 'TRUE'" -Properties samaccountname,userprincipalname,enabled,proxyaddresses,company -SearchBase $OrgUnit | Select-Object samaccountname,userprincipalname,enabled,company, @{L = "ProxyAddresses"; E = { ($_.ProxyAddresses -like 'smtp:*') -join ";"}} 
+## QPHL
+$UPNSuffixQPHL = "@qphl.co"
+$ExtractedUsersQPHL = Get-ADUser -Filter "proxyaddresses -like '*$UPNSuffixQPHL' -and enabled -eq 'TRUE'" -Properties samaccountname,userprincipalname,enabled,proxyaddresses,company -SearchBase $OrgUnit | Select-Object samaccountname,userprincipalname,enabled,company, @{L = "ProxyAddresses"; E = { ($_.ProxyAddresses -like 'smtp:*') -join ";"}} 
 
 # Start transcript
 Start-Transcript -Path C:\Temp\ADExport\Extract-ADUsers.log -Append
@@ -71,7 +71,7 @@ Write-Host "Exporting CSV's"
 $ExtractedUsersPharmaxo | Export-CSV -Path "C:\temp\ADExport\PharmaxoUsers.csv" -Force
 $ExtractedUsersBathASU | Export-CSV -Path "C:\temp\ADExport\BathASUUsers.csv" -Force
 $ExtractedUsersMicrogenetics | Export-CSV -Path "C:\temp\ADExport\MicrogeneticsUsers.csv" -Force
-$ExtractedUsersCorshamScience | Export-CSV -Path "C:\temp\ADExport\CorshamScienceUsers.csv" -Force
+$ExtractedUsersQPHL | Export-CSV -Path "C:\temp\ADExport\QPHLUsers.csv" -Force
 
 # Stop transcript
 Stop-Transcript
