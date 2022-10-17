@@ -50,7 +50,7 @@ else {
 }
 
 # Extract User Information
-$UPNSuffix = 'SHELLPRO.LOCAL'
+$UPNSuffix = Read-Host -Prompt 'Input UPN Suffix'
 $ExtractedUsers = Get-ADUser -Filter "userPrincipalName -like '*$UPNSuffix'"
 
 # Export to CSV
