@@ -51,7 +51,7 @@ else {
 # Extract User Information
 $UPNSuffix = Read-Host -Prompt 'Input UPN Suffix - e.g @pharmaxo.com'
 $OrgUnit = "OU=Users,OU=Corsham,DC=pharmaxo,DC=local"
-$ExtractedUsers = Get-ADUser -Filter "userPrincipalName -like '*$UPNSuffix' -and enabled -eq 'TRUE'" -Properties samaccountname,userprincipalname,enabled,proxyaddresses,company -SearchBase $OrgUnit | Select-Object Name,samaccountname,userprincipalname,enabled,company, @{L = "ProxyAddresses"; E = { ($_.ProxyAddresses -like 'smtp:*') -join ";"}} 
+$ExtractedUsers = Get-ADUser -Filter "userPrincipalName -like '*$UPNSuffix' -and enabled -eq 'TRUE'" -Properties samaccountname,userprincipalname,enabled,proxyaddresses,company -SearchBase $OrgUnit | Select-Object samaccountname,userprincipalname,enabled,company, @{L = "ProxyAddresses"; E = { ($_.ProxyAddresses -like 'smtp:*') -join ";"}} 
 
 # Start transcript
 Start-Transcript -Path C:\Temp\Extract-ADUsers.log -Append
