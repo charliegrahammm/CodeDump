@@ -53,5 +53,8 @@ else {
 $UPNSuffix = Read-Host -Prompt 'Input UPN Suffix'
 $ExtractedUsers = Get-ADUser -Filter "userPrincipalName -like '*$UPNSuffix'"
 
+# Start transcript
+Start-Transcript -Path C:\Temp\Extract-ADUsers.log -Append
+
 # Export to CSV
 Export-CSV -Path "C:\temp\users.csv" -Force
