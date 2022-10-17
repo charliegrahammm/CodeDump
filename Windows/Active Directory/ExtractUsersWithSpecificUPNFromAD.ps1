@@ -9,7 +9,7 @@
 .SYNOPSIS  
     This script extracts a list of users from AD with a specific UPN suffix.
 .DESCRIPTION  
-    Pulls users from AD with a specified UPN suffix and exports to C:\Temp\users.csv. Must be ran using domain administrator credentials.
+    Pulls users from a specific AD OU with a specified UPN suffix and exports to C:\Temp\users.csv. Must be ran using domain administrator credentials.
 .NOTES  
     File Name  : ExtractUsersWithSpecificUPNFromAD.ps1  
     Author     : Charlie Graham 
@@ -20,7 +20,7 @@
 If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]'Administrator')) {
     Write-Host "You didn't run this script as an Administrator. This script will self elevate to run as an Administrator and continue."
     Start-Sleep 1
-    Write-Host " Launching in Admin mode" -f DarkRed
+    Write-Host "Launching in Admin mode" -f DarkRed
     $pwshexe = (Get-Command 'powershell.exe').Source
     Start-Process $pwshexe -ArgumentList ("-NoProfile -ExecutionPolicy Bypass -File `"{0}`"" -f $PSCommandPath) -Verb RunAs
     Exit
@@ -40,7 +40,6 @@ Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201
 # Install ActiveDirectory if not already
 if (Get-Module -ListAvailable -Name ActiveDirectory) {
     Write-Host "ActiveDirectory exists" -ForegroundColor Green
-    Update-Module -Name ActiveDirectory
     Import-Module ActiveDirectory
 } 
 else {
@@ -50,13 +49,15 @@ else {
 }
 
 # Extract User Information
-$UPNSuffix = Read-Host -Prompt 'Input UPN Suffix'
-$ExtractedUsers = Get-ADUser -Filter "userPrincipalName -like '*$UPNSuffix'"
+$UPNSuffix = Read-Host -Prompt 'Input UPN Suffix - e.g @pharmaxo.com'
+$OrgUnit = "OU=Users,OU=Corsham,DC=pharmaxo,DC=local"
+$ExtractedUsers = Get-ADUser -Filter "userPrincipalName -like '*$UPNSuffix' -and enabled -eq 'TRUE'" -Properties samaccountname,userprincipalname,enabled,proxyaddresses,company -SearchBase $OrgUnit | Select-Object Name,samaccountname,userprincipalname,enabled,company, @{L = "ProxyAddresses"; E = { ($_.ProxyAddresses -like 'smtp:*') -join ";"}} 
 
 # Start transcript
 Start-Transcript -Path C:\Temp\Extract-ADUsers.log -Append
 
 # Export to CSV
+Write-Host "Exporting CSV"
 $ExtractedUsers | Export-CSV -Path "C:\temp\users.csv" -Force
 
 # Stop transcript
