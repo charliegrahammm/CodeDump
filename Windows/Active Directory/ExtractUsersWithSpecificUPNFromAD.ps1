@@ -57,4 +57,7 @@ $ExtractedUsers = Get-ADUser -Filter "userPrincipalName -like '*$UPNSuffix'"
 Start-Transcript -Path C:\Temp\Extract-ADUsers.log -Append
 
 # Export to CSV
-Export-CSV -Path "C:\temp\users.csv" -Force
+$ExtractedUsers | Export-CSV -Path "C:\temp\users.csv" -Force
+
+# Stop transcript
+Stop-Transcript
