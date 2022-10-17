@@ -30,9 +30,11 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 # Allow PSGallery Repository
+Write-Host "Allowing PSGallery" -ForegroundColor Green
 Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
 
 # Install NuGet if not already
+Write-Host "Install NuGet" -ForegroundColor Green
 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201
 
 # Install ActiveDirectory if not already
@@ -69,7 +71,7 @@ $ExistingGroups = Get-ADPrincipalGroupMembership $ADUser.SamAccountName | Select
     }
     else {
         # Add user to group
-        Add-ADGroupMember -Identity $Group -Members $ADUser.SamAccountName -WhatIf
+        Add-ADGroupMember -Identity $Group -Members $ADUser.SamAccountName
         Write-Host "Added $UPN to $Group" -ForeGroundColor Green
     }
 }
