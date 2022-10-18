@@ -30,16 +30,50 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 Write-Host "Initial Cleanup..."
 Remove-Item "C:\HWID" -Recurse -Force
 
-# Install dependencies
-Write-Host "Allowing PSGallery..."
+# Force TLS 1.2
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+# Allow PSGallery Repository
 Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
-# Install NuGet
-Write-Host "Installing NuGet..."
-Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -ForceBootstrap -Confirm:$false
-# Install Get-WindowsAutopilotInfo  
-Write-Host "Installing Get-WindowsAutopilotInfo..."
-$env:Path += ";C:\Program Files\WindowsPowerShell\Scripts"
-Install-Script -Name Get-WindowsAutopilotInfo
+
+# Install NuGet if not already
+Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201
+
+# Install Microsoft.Graph.Intune if not already
+if (Get-Module -ListAvailable -Name Microsoft.Graph.Intune) {
+    Write-Host "Microsoft.Graph.Intune Module exists" -ForegroundColor Green
+    Update-Module -Name Microsoft.Graph.Intune
+    Import-Module Microsoft.Graph.Intune
+} 
+else {
+    Write-Host "Microsoft.Graph.Intune Module does not exist" -ForegroundColor Red
+    Install-Module -Name Microsoft.Graph.Intune
+    Import-Module Microsoft.Graph.Intune
+}
+
+# Install AzureAD if not already
+if (Get-Module -ListAvailable -Name AzureAD) {
+    Write-Host "AzureAD Module exists" -ForegroundColor Green
+    Update-Module -Name AzureAD
+    Import-Module AzureAD
+} 
+else {
+    Write-Host "AzureAD Module does not exist" -ForegroundColor Red
+    Install-Module -Name AzureAD
+    Import-Module AzureAD
+}
+
+# Install WindowsAutoPilotIntune Module if not already
+if (Get-Module -ListAvailable -Name WindowsAutoPilotIntune) {
+    Write-Host "WindowsAutoPilotIntune Module exists" -ForegroundColor Green
+    Update-Module -Name WindowsAutoPilotIntune
+    Import-Module WindowsAutoPilotIntune
+} 
+else {
+    Write-Host "WindowsAutoPilotIntune Module does not exist" -ForegroundColor Red
+    Install-Module -Name WindowsAutoPilotIntune
+    Import-Module WindowsAutoPilotIntune
+}
 
 # Extract device's hardware hash and serial number and output to C:\HWID\AutopilotHWID.csv
 # Write-Host "Extracting device hardware hash and serial number..."
