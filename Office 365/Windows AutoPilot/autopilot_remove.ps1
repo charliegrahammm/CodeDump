@@ -81,16 +81,16 @@ $ComputerName = Read-Host -Prompt 'Enter devices Computer Name'
 Write-Host "Please sign in with an Office 365 Administrator account..." -f DarkRed
 
 # Remove device from AutoPilot
-Write-Host "Removing device from AutoPilot..."
 Connect-MSGraph
 Get-AutoPilotDevice | Where-Object SerialNumber -eq $SerialNumber | Remove-AutopilotDevice
+Write-Host "Removing device from AutoPilot..."
 
 # Ask for credentials
 Write-Host "Please sign in again with an Office 365 Administrator account..." -f DarkRed
 
 # Remove device from AzureAD
-Write-Host "Removing device from AzureAD..."
 Connect-Azuread
 Get-AzureADDevice | Where-Object DisplayName -Match $ComputerName | Remove-AzureADDevice
+Write-Host "Removing device from AzureAD..."
 
 PAUSE
