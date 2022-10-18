@@ -13,7 +13,7 @@
 .NOTES  
     File Name  : autopilot_remove.ps1  
     Author     : Charlie Graham 
-    Requires   : NuGet, PSGallery, Get-WindowsAutopilotInfo
+    Requires   : NuGet, PSGallery
 #>
 
 # This will self elevate the script with a UAC prompt since this script needs to be run as an Administrator in order to function properly.
