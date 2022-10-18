@@ -7,9 +7,9 @@
  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝
 
 .SYNOPSIS  
-    This script asks for a machines serial number and removes it from Auto Pilot.
+    This script asks for a machines name and serial number and removes it from Auto Pilot.
 .DESCRIPTION  
-    Extract device's hardware hash and serial number and remove from Auto Pilot.  
+    Manually enter a device's hardware name and serial number and remove from Auto Pilot.  
 .NOTES  
     File Name  : autopilot_remove.ps1  
     Author     : Charlie Graham 
