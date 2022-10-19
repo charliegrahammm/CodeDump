@@ -9,7 +9,7 @@
 .SYNOPSIS  
     This script runs LSUClient_auto.ps1 and RunWinUpdates_auto.ps1.
 .DESCRIPTION  
-    Run this to automatically run LSUClient and Windows Updates.
+    Run this to automatically run LSUClient and Windows Updates. Must be ran as Administrator.
 .NOTES  
     File Name  : RunUpdates_auto.ps1  
     Author     : Charlie Graham 
@@ -17,7 +17,12 @@
 #>
 
 # Run LSUClient_auto
+Write-Host "Running Lenovo System Updates..."
 .\Lenovo\LSUClient_auto.ps1
 
 # Run RunWinUpdates_auto
+Write-Host "Running Windows Updates..."
 .\Windows Update\RunWinUpdates_auto.ps1
+
+# Reboot
+Restart-Computer -Force
