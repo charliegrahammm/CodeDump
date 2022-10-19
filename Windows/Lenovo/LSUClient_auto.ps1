@@ -59,7 +59,12 @@ for ($Round = 1; $Round -le $MaxRounds; $Round++) {
 
 # Cleanup Files
 Write-Output "Cleaning up..."
+if (Test-Path -Path $env:TEMP\LSUPackages) {
 Remove-Item -Path $env:TEMP\LSUPackages -Recurse
+}
+else {
+    Write-Host "Nothing to clean up"
+}
 
 # Gather updates after installation
 Write-Output "Gathering updates..."
