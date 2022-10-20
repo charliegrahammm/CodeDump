@@ -38,6 +38,10 @@ else {
 # Gather updates in a loop
 $updates = Get-LSUpdate | Where-Object { $_.Installer.Unattended } -Verbose
 
+if ($updates -eq 0) {
+    $UpdateCount = 69420
+}
+
 [PSCustomObject]@{
-    UpdateCount     = $updates.Count
+    UpdateCount     = $UpdateCount
 }
