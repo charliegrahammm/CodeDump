@@ -27,11 +27,11 @@ $null = Install-PackageProvider "Nuget" -Force
 
 # Install LSUClient if not already
 if (Get-Module -ListAvailable -Name LSUClient) {
-    Update-Module -Name LSUClient -Force
+    Update-Module -Name LSUClient -Scope CurrentUser
     Import-Module LSUClient
 } 
 else {
-    Install-Module -Name LSUClient -Force
+    Install-Module -Name LSUClient -Scope CurrentUser
     Import-Module LSUClient
 }
 
