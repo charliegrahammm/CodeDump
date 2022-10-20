@@ -16,6 +16,9 @@
     Requires   : PowerShell V2, LSUClient, NuGet
 #>
 
+# Set execution policy
+Set-ExecutionPolicy -ExecutionPolicy Bypass
+
 # Force TLS 1.2
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
@@ -23,25 +26,21 @@
 Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
 
 # Install NuGet if not already
-$null = Install-PackageProvider "Nuget" -Force
+Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 
 # Install LSUClient if not already
 if (Get-Module -ListAvailable -Name LSUClient) {
-    Update-Module -Name LSUClient -Scope CurrentUser
+    Update-Module -Name LSUClient -Force
     Import-Module LSUClient
 } 
 else {
-    Install-Module -Name LSUClient -Scope CurrentUser
+    Install-Module -Name LSUClient -Force
     Import-Module LSUClient
 }
 
 # Gather updates in a loop
 $updates = Get-LSUpdate | Where-Object { $_.Installer.Unattended } -Verbose
 
-if ($updates -eq 0) {
-    $UpdateCount = 69420
-}
-
 [PSCustomObject]@{
-    UpdateCount     = $UpdateCount
+    UpdatesOutstanding     = $updates.count
 }
