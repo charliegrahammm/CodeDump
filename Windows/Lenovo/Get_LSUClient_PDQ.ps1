@@ -31,7 +31,7 @@ if (Get-Module -ListAvailable -Name LSUClient) {
     Import-Module LSUClient
 } 
 else {
-    Install-Module -Name LSUClient
+    Install-Module -Name LSUClient -Force
     Import-Module LSUClient
 }
 
