@@ -23,7 +23,7 @@
 Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
 
 # Install NuGet if not already
-Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201
+Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 
 # Install LSUClient if not already
 if (Get-Module -ListAvailable -Name LSUClient) {
