@@ -118,7 +118,7 @@ Try {
 		}
 		
 		# Set the machine to auto-login as LocalUser
-		Write-Host "Setting Auto-Login for LocalUser"
+		Write-Host "Setting Auto-Login for user"
 		$RegPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 
 		Set-ItemProperty $RegPath "AutoAdminLogon" -Value "1" -type String 
@@ -126,7 +126,7 @@ Try {
 		Set-ItemProperty $RegPath "DefaultPassword" -Value "$LocalPassword" -type String
 
 		# Set a scheduled task to re-run this script
-		Write-Host "Setting a scheduled task to re-run this script at the logon of LocalUser"
+		Write-Host "Setting a scheduled task to re-run this script at the logon of user"
 
 		$ScheduledTask = Get-ScheduledTask -TaskName $ScheduledTaskName -ErrorAction SilentlyContinue
 		If ($ScheduledTask) {
@@ -163,14 +163,14 @@ Try {
 		Write-Host -ForegroundColor Green "No Outstanding Updates Found!"
 
 		# Remove the auto-login settings for LocalUser
-		Write-Host "Removing Auto-Login for LocalUser"
+		Write-Host "Removing Auto-Login for user"
 		$RegPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 		Set-ItemProperty $RegPath "AutoAdminLogon" -Value "0" -type String 
 		Set-ItemProperty $RegPath "DefaultUsername" -Value "" -type String 
 		Set-ItemProperty $RegPath "DefaultPassword" -Value "" -type String
 
 		# Remove the Scheduled Task
-		Write-Host "Removing the scheduled task to re-run this script at the logon of LocalUser"
+		Write-Host "Removing the scheduled task to re-run this script at the logon of user"
 		$ScheduledTask = Get-ScheduledTask -TaskName $ScheduledTaskName -ErrorAction SilentlyContinue
 		If ($ScheduledTask) {
 			# Delete
