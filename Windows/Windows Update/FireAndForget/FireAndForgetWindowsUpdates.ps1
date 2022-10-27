@@ -87,7 +87,7 @@ Try {
 			}
 		
 			If (-Not($CredentialsValid)) {
-				Write-Host "Prompting for user credentials"
+				Write-Host "Prompting for user credentials. Enter your Username and Password"
 				# Read in user credentials and then export to an encrypted XML file
 				# Note: this file is only decrypted on the computer on which is created by the account who created it.
 				Get-Credential | Export-CliXml "$($env:TEMP)\LocalUserCredentials.xml"
