@@ -16,58 +16,67 @@
     Requires   : PowerShell V2, LSUClient, NuGet
 #>
 
-# Force TLS 1.2
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+$Manufacturer = (gwmi win32_computersystem).Manufacturer
+"This pc is a $Manufacturer PC"
 
-# Allow PSGallery Repository
-Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
+if ($Manufacturer -like "Lenovo*") {
+    Write-Host "Running Lenovo System Updates..."
+    # Force TLS 1.2
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-# Install NuGet if not already
-Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+    # Allow PSGallery Repository
+    Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
 
-# Install LSUClient if not already
-if (Get-Module -ListAvailable -Name LSUClient) {
-    Write-Output "LSUClient Module exists" 
-    Update-Module -Name LSUClient
-    Import-Module LSUClient
-} 
-else {
-    Write-Output "LSUClient does not exist"
-    Install-Module -Name LSUClient
-    Import-Module LSUClient
-}
+    # Install NuGet if not already
+    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 
-# Gather updates in a loop
-Write-Output "Gathering updates..."
-$MaxRounds = 3
-for ($Round = 1; $Round -le $MaxRounds; $Round++) {
-    Write-Output "Starting round $Round"
+    # Install LSUClient if not already
+    if (Get-Module -ListAvailable -Name LSUClient) {
+        Write-Output "LSUClient Module exists" 
+        Update-Module -Name LSUClient
+        Import-Module LSUClient
+    } 
+    else {
+        Write-Output "LSUClient does not exist"
+        Install-Module -Name LSUClient
+        Import-Module LSUClient
+    }
+
+    # Gather updates in a loop
+    Write-Output "Gathering updates..."
+    $MaxRounds = 3
+    for ($Round = 1; $Round -le $MaxRounds; $Round++) {
+        Write-Output "Starting round $Round"
+        $updates = Get-LSUpdate | Where-Object { $_.Installer.Unattended } -Verbose
+        Write-Output "$($updates.Count) updates found"
+        Write-Output $updates
+
+        if ($updates.Count -eq 0) {
+            break;
+        }
+
+        # Download them all to the local disk
+        $updates | Save-LSUpdate
+
+        # Then install
+        $updates | Install-LSUpdate
+    }
+
+    # Cleanup Files
+    Write-Output "Cleaning up..."
+    if (Test-Path -Path $env:TEMP\LSUPackages) {
+        Remove-Item -Path $env:TEMP\LSUPackages -Recurse
+    }
+    else {
+        Write-Host "Nothing to clean up"
+    }
+
+    # Gather updates after installation
+    Write-Output "Gathering updates..."
     $updates = Get-LSUpdate | Where-Object { $_.Installer.Unattended } -Verbose
     Write-Output "$($updates.Count) updates found"
     Write-Output $updates
-
-    if ($updates.Count -eq 0) {
-        break;
-    }
-
-    # Download them all to the local disk
-    $updates | Save-LSUpdate
-
-    # Then install
-    $updates | Install-LSUpdate
-}
-
-# Cleanup Files
-Write-Output "Cleaning up..."
-if (Test-Path -Path $env:TEMP\LSUPackages) {
-Remove-Item -Path $env:TEMP\LSUPackages -Recurse
 }
 else {
-    Write-Host "Nothing to clean up"
+    Write-Host "This device isnt a Lenovo, skipping Lenovo System Updates"
 }
-
-# Gather updates after installation
-Write-Output "Gathering updates..."
-$updates = Get-LSUpdate | Where-Object { $_.Installer.Unattended } -Verbose
-Write-Output "$($updates.Count) updates found"
-Write-Output $updates
