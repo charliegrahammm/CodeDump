@@ -17,11 +17,8 @@
 #>
 
 # Run LSUClient_auto
-.\Lenovo\LSUClient_auto.ps1
+.\"\Lenovo\LSUClient_auto.ps1"
 
 # Run RunWinUpdates_auto
 Write-Host "Running Windows Updates..."
 .\"\Windows Update\FireAndForget\FireAndForgetWindowsUpdates.ps1"
-
-# Reboot
-Restart-Computer -Force
