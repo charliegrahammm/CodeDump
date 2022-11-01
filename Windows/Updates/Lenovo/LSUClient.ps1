@@ -32,8 +32,9 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 # Allow PSGallery Repository
 Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
 
-# Install NuGet if not already
-Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+# Install NuGet in order that we can install PSWindowsUpdate
+Write-Host "Installing NuGet"
+Install-PackageProvider -Name NuGet -Confirm:$False -Force -ErrorAction SilentlyContinue
 
 # Install LSUClient if not already
 if (Get-Module -ListAvailable -Name LSUClient) {

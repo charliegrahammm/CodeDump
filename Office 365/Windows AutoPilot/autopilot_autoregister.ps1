@@ -36,8 +36,9 @@ Remove-Item "C:\HWID" -Recurse -Force
 # Allow PSGallery Repository
 Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
 
-# Install NuGet if not already
-Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201
+# Install NuGet in order that we can install PSWindowsUpdate
+Write-Host "Installing NuGet"
+Install-PackageProvider -Name NuGet -Confirm:$False -Force -ErrorAction SilentlyContinue
 
 # Install Microsoft.Graph.Intune if not already
 if (Get-Module -ListAvailable -Name Microsoft.Graph.Intune) {
