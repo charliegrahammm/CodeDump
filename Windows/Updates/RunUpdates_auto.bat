@@ -1,7 +1,11 @@
 @ECHO OFF
 
+pushd %~dp0
+
 ECHO Copying Files...
-PowerShell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\Scripts\Windows\Updates\CopyFilesLocally.ps1"
+PowerShell.exe -NoProfile -ExecutionPolicy Bypass -File "CopyFilesLocally.ps1"
+
+sleep 5
 
 ECHO Gathering credentials...
 PowerShell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Temp\Windows Update\FireAndForget\GatherCredentials.ps1"
