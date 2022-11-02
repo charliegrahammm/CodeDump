@@ -22,8 +22,9 @@
 # Allow PSGallery Repository
 Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
 
-# Install NuGet if not already
-Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+# Install NuGet in order that we can install PSWindowsUpdate
+Write-Host "Installing NuGet"
+Install-PackageProvider -Name NuGet -Confirm:$False -Force -ErrorAction SilentlyContinue
 
 # Install PSWindowsUpdate if not already
 if (Get-Module -ListAvailable -Name PSWindowsUpdate) {
@@ -136,8 +137,8 @@ Try {
 
 		# Create the scheduled task
 		$STT = New-ScheduledTaskTrigger -AtLogon -User $LocalUsername
-		$ActionArguments = "-NoProfile -ExecutionPolicy Bypass -File ""$PSCommandPath"""
-		# $ActionArguments = "-NoProfile -ExecutionPolicy Bypass ""Test"""
+		# $ActionArguments = "-NoProfile -ExecutionPolicy Bypass -File ""$PSCommandPath"""
+		$ActionArguments = "-NoProfile -ExecutionPolicy Bypass -File ""C:\Temp\Windows Update\FireAndForget\FireAndForgetWindowsUpdates.ps1"""
 		$Action = New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument $ActionArguments
 		$STP = New-ScheduledTaskPrincipal $LocalUsername -RunLevel Highest
 		$STS = New-ScheduledTaskSettingsSet -RestartInterval (New-TimeSpan -Minutes 1) -RestartCount 3 -StartWhenAvailable -Compatibility Win8
@@ -188,6 +189,9 @@ Try {
 Finally {
 	Stop-Transcript | Out-Null
 	
+	# Cleanup Files
+	Remove-Item 'C:\Temp' -Recurse
+
 	# Reboot
 	Restart-Computer -Force
 }
