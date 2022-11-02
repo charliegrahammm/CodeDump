@@ -16,6 +16,9 @@
     Requires   : PowerShell v2
 #>
 
+# Change directory to scripts folder in C:\Temp
+Set-Location "C:\Temp"
+
 # Run LSUClient_auto
 .\"\Lenovo\LSUClient_auto.ps1"
 
