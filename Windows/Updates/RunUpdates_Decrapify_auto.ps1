@@ -21,7 +21,7 @@ Set-Location "C:\Temp"
 
 # Decrapify
 Write-Host "Running Decrapifier Script..."
-.\"Decrapify.ps1"
+.\"\Windows Update\FireAndForget\Decrapify.ps1"
 
 # Run LSUClient_auto
 .\"\Lenovo\LSUClient_auto.ps1"
