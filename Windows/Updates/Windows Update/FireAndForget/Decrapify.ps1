@@ -948,15 +948,15 @@ $START_MENU_LAYOUT | Out-File $layoutFile -Encoding ASCII
 $regAliases = @("HKLM", "HKCU")
 
 #Assign the start layout and force it to apply with "LockedStartLayout" at both the machine and user level
-# foreach ($regAlias in $regAliases){
-#     $basePath = $regAlias + ":\SOFTWARE\Policies\Microsoft\Windows"
-#     $keyPath = $basePath + "\Explorer"
-#     IF(!(Test-Path -Path $keyPath)) {
-#         New-Item -Path $basePath -Name "Explorer"
-#     }
-#     Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 1
-#     Set-ItemProperty -Path $keyPath -Name "StartLayoutFile" -Value $layoutFile
-# }
+foreach ($regAlias in $regAliases){
+    $basePath = $regAlias + ":\SOFTWARE\Policies\Microsoft\Windows"
+    $keyPath = $basePath + "\Explorer"
+    IF(!(Test-Path -Path $keyPath)) {
+        New-Item -Path $basePath -Name "Explorer"
+    }
+    Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 1
+    Set-ItemProperty -Path $keyPath -Name "StartLayoutFile" -Value $layoutFile
+}
 
 #Restart Explorer, open the start menu (necessary to load the new layout), and give it a few seconds to process
 Stop-Process -name explorer
