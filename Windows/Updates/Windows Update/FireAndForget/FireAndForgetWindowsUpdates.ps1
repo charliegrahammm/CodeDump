@@ -184,13 +184,13 @@ Try {
 		}
 
 		Write-Host -ForegroundColor Green "Fire And Forget Windows Updates are now complete."
+
+		# Cleanup Files
+		Remove-Item 'C:\Temp' -Recurse
 	} 
 }
 Finally {
 	Stop-Transcript | Out-Null
-	
-	# Cleanup Files
-	Remove-Item 'C:\Temp' -Recurse
 
 	# Reboot
 	Restart-Computer -Force
