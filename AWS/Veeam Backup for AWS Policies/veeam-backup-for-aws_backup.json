@@ -1,0 +1,31 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "backup:CopyFromBackupVault",
+                "backup:CopyIntoBackupVault",
+                "backup:CreateBackupVault",
+                "backup:DeleteBackupVault",
+                "backup:DeleteRecoveryPoint",
+                "backup:DescribeBackupJob",
+                "backup:DescribeCopyJob",
+                "backup:DescribeRecoveryPoint",
+                "backup:DescribeRestoreJob",
+                "backup:ListBackupVaults",
+                "backup:ListRecoveryPointsByBackupVault",
+                "backup:ListTags",
+                "backup:StartBackupJob",
+                "backup:StartCopyJob",
+                "backup:StartRestoreJob",
+                "backup:StopBackupJob",
+                "backup:TagResource",
+                "backup:UntagResource",
+                "backup-storage:MountCapsule"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
