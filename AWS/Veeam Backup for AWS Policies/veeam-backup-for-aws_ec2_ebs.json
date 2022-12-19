@@ -5,6 +5,8 @@
             "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": [
+                "ebs:ListChangedBlocks",
+                "ebs:ListSnapshotBlocks",
                 "ec2:CreateDhcpOptions",
                 "ec2:DeleteManagedPrefixList",
                 "ec2:AuthorizeSecurityGroupIngress",
