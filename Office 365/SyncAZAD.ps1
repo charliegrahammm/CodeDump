@@ -13,22 +13,11 @@
     Author     : Charlie Graham 
     Requires   : PowerShell v2
 #>
+# Import Module (Module is installed as part of the Azure AD Connect service)
+Import-Module ADSYNC
 
-# Install NuGet in order that we can install PSWindowsUpdate
-Write-Host "Installing NuGet"
-Install-PackageProvider -Name NuGet -Confirm:$False -Force -ErrorAction SilentlyContinue
-
-# Install ADSync Module if not already
-if (Get-Module -ListAvailable -Name ADSync) {
-    Write-Host "ADSync Module exists" -ForegroundColor Green
-    Update-Module -Name ADSync
-    Import-Module ADSync
-} 
-else {
-    Write-Host "ADSync Module does not exist" -ForegroundColor Red
-    Install-Module -Name ADSync
-    Import-Module ADSync
-}
+# Get current status
+Get-ADSyncConnectorRunStatus
 
 # Run Sync
 Write-Host "Running Sync..."
