@@ -7,39 +7,30 @@
  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝
 
 .SYNOPSIS  
-    This script will pull the latest linuxserver/code-server docker image and push it to AWS ECR.
-.DESCRIPTION  
-    Pulls the latest linuxserver/code-server docker image from docker hub and pushes it to AWS ECR
+    This script will force a sync between on-prem and Azure AD.
 .NOTES  
-    File Name  : ScriptName.ps1  
+    File Name  : SyncAZAD.ps1  
     Author     : Charlie Graham 
-    Requires   : PowerShell V2, AWS CLI, Docker
+    Requires   : PowerShell v2
 #>
 
-# This will self elevate the script with a UAC prompt since this script needs to be run as an Administrator in order to function properly.
-If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]'Administrator')) {
-    Write-Host "You didn't run this script as an Administrator. This script will self elevate to run as an Administrator and continue."-f DarkRed
-    Start-Sleep 1
-    Write-Host "Launching in Admin mode" -f Green
-    $pwshexe = (Get-Command 'powershell.exe').Source
-    Start-Process $pwshexe -ArgumentList ("-NoProfile -ExecutionPolicy Bypass -File `"{0}`"" -f $PSCommandPath) -Verb RunAs
-    Exit
+# Install NuGet in order that we can install PSWindowsUpdate
+Write-Host "Installing NuGet"
+Install-PackageProvider -Name NuGet -Confirm:$False -Force -ErrorAction SilentlyContinue
+
+# Install ADSync Module if not already
+if (Get-Module -ListAvailable -Name ADSync) {
+    Write-Host "ADSync Module exists" -ForegroundColor Green
+    Update-Module -Name ADSync
+    Import-Module ADSync
+} 
+else {
+    Write-Host "ADSync Module does not exist" -ForegroundColor Red
+    Install-Module -Name ADSync
+    Import-Module ADSync
 }
 
-# Pull latest docker image
-docker pull linuxserver/code-server
-
-# Gather stdin
-$stdin = Read-Host -Prompt 'Input your password-stdin'
-
-# Authenticate against AWS
-aws ecr get-login-password --region region | docker login --username AWS --password-stdin $stdin.dkr.ecr.region.amazonaws.com
-
-# Build image
-docker build -t vscode-server .
-
-# Tag image
-docker tag vscode-server:latest $stdin.dkr.ecr.eu-west-2.amazonaws.com/vscode-server:latest
-
-# Push image
-docker push $stdin.dkr.ecr.eu-west-2.amazonaws.com/vscode-server:latest
+# Run Sync
+Write-Host "Running Sync..."
+Start-ADSyncSyncCycle -PolicyType Delta
+PAUSE
