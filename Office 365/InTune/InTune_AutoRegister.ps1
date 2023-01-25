@@ -13,7 +13,7 @@
 .NOTES  
     File Name  : InTune_autoregister.ps1  
     Author     : Charlie Graham 
-    Requires   : NuGet, PSGallery, Get-WindowsAutopilotInfo
+    Requires   : NuGet, PSGallery, Get-WindowsAutopilotInfo, winget
 #>
 
 # This will self elevate the script with a UAC prompt since this script needs to be run as an Administrator in order to function properly.
@@ -74,6 +74,20 @@ else {
     Write-Host "WindowsAutoPilotIntune Module does not exist" -ForegroundColor Red
     Install-Module -Name WindowsAutoPilotIntune
     Import-Module WindowsAutoPilotIntune
+}
+
+# Install WinGetTools Module if not already
+if (Get-Module -ListAvailable -Name WingetTools) {
+    Write-Host "WingetTools Module exists" -ForegroundColor Green
+    Update-Module -Name WingetTools
+    Import-Module WingetTools
+    Install-WinGet -Verbose
+} 
+else {
+    Write-Host "WingetTools Module does not exist" -ForegroundColor Red
+    Install-Module -Name WingetTools
+    Import-Module WingetTools
+    Install-WinGet -Verbose
 }
 
 # Install Get-WindowsAutoPilotInfo Script
