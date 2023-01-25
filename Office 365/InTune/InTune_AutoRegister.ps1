@@ -92,7 +92,7 @@ Get-WindowsAutopilotInfo -Online
 Write-Host "Uploading device hardware hash and serial number..."
 
 # Wait before cleanup
-[int]$Time = 5
+[int]$Time = 10
 $Length = $Time / 100
 For ($Time; $Time -gt 0; $Time--) {
 $min = [int](([string]($Time/60)).split('.')[0])
@@ -101,21 +101,14 @@ Write-Progress -Activity "Watiting..." -Status $Text -PercentComplete ($Time / $
 Start-Sleep 1
 }
 
+# Install the Company Portal application
+Write-Host "Installing Company Portall app from the Microsoft Store"
+winget install "Company Portal"
+
 # Post-Script Cleanup
 Write-Host "Post-Script Cleanup..."
 Remove-Item "C:\HWID" -Recurse -Force
 
-# Ask user for confirmation of a factory reset
-$title = 'Reboot'
-$question = 'Do you want to Reboot?'
-$choices = '&Yes', '&No'
-
-$decision = $Host.UI.PromptForChoice($title, $question, $choices, 1)
-if ($decision -eq 0) {
-    Write-Host 'Rebooting...' -f Green
-    shutdown /r /t 0 
-}
-else {
-    Write-Host 'Exiting...' -f DarkRed
-    exit
-}
+# Launch Company Portal
+Write-Host "Launching Company Portal app"
+explorer.exe shell:appsFolder\Microsoft.CompanyPortal_8wekyb3d8bbwe!App

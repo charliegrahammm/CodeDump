@@ -88,7 +88,7 @@ Get-WindowsAutopilotInfo -Online
 Write-Host "Uploading device hardware hash and serial number..."
 
 # Wait before cleanup
-[int]$Time = 5
+[int]$Time = 10
 $Length = $Time / 100
 For ($Time; $Time -gt 0; $Time--) {
 $min = [int](([string]($Time/60)).split('.')[0])

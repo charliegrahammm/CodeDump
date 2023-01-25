@@ -46,7 +46,7 @@ function Get-AuthToken {
     $userUpn = New-Object "System.Net.Mail.MailAddress" -ArgumentList $User
     $tenant = $userUpn.Host
     $AadModule = Get-Module -Name "AzureAD" -ListAvailable
-    if ($null -eq $AadModule) {
+    if ($AadModule -eq $null) {
         Write-Host "AzureAD PowerShell module not found, looking for AzureADPreview"
         $AadModule = Get-Module -Name "AzureADPreview" -ListAvailable
     }
@@ -90,7 +90,7 @@ function Get-GraphCall {
 
 #Auth
 if(-not $global:authToken){
-    if($null -eq $User -or $User -eq ""){
+    if($User -eq $null -or $User -eq ""){
     $User = Read-Host -Prompt "Please specify your user principal name for Azure Authentication"
     Write-Host
     }

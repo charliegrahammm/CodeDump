@@ -88,7 +88,7 @@ Write-Host "Removing device from AzureAD..."
 Connect-Azuread
 Get-AzureADDevice | Where-Object DisplayName -Match $env:COMPUTERNAME | Remove-AzureADDevice
 
-# Ask user for confirmation of a factory reset
+# Ask user for confirmation of a reboot
 $title = 'Reboot'
 $question = 'Do you want to Reboot?'
 $choices = '&Yes', '&No'
