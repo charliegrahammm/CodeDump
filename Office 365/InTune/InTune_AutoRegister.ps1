@@ -102,7 +102,7 @@ Start-Sleep 1
 }
 
 # Install the Company Portal application
-Write-Host "Installing Company Portall app from the Microsoft Store"
+Write-Host "Installing Company Portal app from the Microsoft Store"
 winget install "Company Portal"
 
 # Post-Script Cleanup
