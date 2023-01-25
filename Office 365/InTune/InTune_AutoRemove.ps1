@@ -7,11 +7,11 @@
  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝
 
 .SYNOPSIS  
-    This script automatically extracts data from a machine and adds it to Auto Pilot.
+    This script automatically extracts data from a machine and removes it from In Tune.
 .DESCRIPTION  
-    Extract device's hardware hash and serial number and upload to Auto Pilot.  
+    Extract device's hardware hash and serial number and remove from In Tune.  
 .NOTES  
-    File Name  : autopilot_autoregister.ps1  
+    File Name  : intune_autoremove.ps1  
     Author     : Charlie Graham 
     Requires   : NuGet, PSGallery, Get-WindowsAutopilotInfo
 #>
@@ -25,10 +25,6 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     Start-Process $pwshexe -ArgumentList ("-NoProfile -ExecutionPolicy Bypass -File `"{0}`"" -f $PSCommandPath) -Verb RunAs
     Exit
 }
-
-# Initial Cleanup
-Write-Host "Initial Cleanup..."
-Remove-Item "C:\HWID" -Recurse -Force
 
 # Force TLS 1.2
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
@@ -76,34 +72,33 @@ else {
     Import-Module WindowsAutoPilotIntune
 }
 
-# Extract device's hardware hash and serial number and output to C:\HWID\AutopilotHWID.csv
-# Write-Host "Extracting device hardware hash and serial number..."
-# New-Item -Type Directory -Path "C:\HWID"
-# Set-Location -Path "C:\HWID"
-# Get-WindowsAutopilotInfo -OutputFile AutopilotHWID.csv
+# Ask for credentials
+Write-Host "Please sign in with an Office 365 Administrator account..." -f DarkRed
+
+# Remove device from AutoPilot
+Write-Host "Removing device from AutoPilot..."
+Connect-MSGraph
+Get-AutoPilotDevice | Where-Object SerialNumber -eq (Get-WmiObject -class Win32_Bios).SerialNumber | Remove-AutopilotDevice
 
 # Ask for credentials
-Write-Host "Uploading device hardware hash and serial number..."
-Write-Host "Please sign in with an account with the Intune Administrator role..." -f DarkRed
+Write-Host "Please sign in again with an Office 365 Administrator account..." -f DarkRed
 
-# Upload hardware hash to Auto Pilot 
-Get-WindowsAutopilotInfo -Online
-
-# Post-Script Cleanup
-Write-Host "Post-Script Cleanup..."
-Remove-Item "C:\HWID" -Recurse -Force
+# Remove device from AzureAD
+Write-Host "Removing device from AzureAD..."
+Connect-Azuread
+Get-AzureADDevice | Where-Object DisplayName -Match $env:COMPUTERNAME | Remove-AzureADDevice
 
 # Ask user for confirmation of a factory reset
-$title = 'Factory Reset'
-$question = 'Do you want to factory reset and start building from InTune?'
+$title = 'Reboot'
+$question = 'Do you want to Reboot?'
 $choices = '&Yes', '&No'
 
 $decision = $Host.UI.PromptForChoice($title, $question, $choices, 1)
 if ($decision -eq 0) {
-    Write-Host 'Confirmed' -f Green
-    systemreset.exe --factoryreset
+    Write-Host 'Rebooting...' -f Green
+    shutdown /r /t 0 
 }
 else {
-    Write-Host 'Cancelled' -f DarkRed
+    Write-Host 'Exiting...' -f DarkRed
     exit
 }
