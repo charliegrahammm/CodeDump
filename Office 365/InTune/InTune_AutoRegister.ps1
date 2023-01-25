@@ -76,18 +76,30 @@ else {
     Import-Module WindowsAutoPilotIntune
 }
 
+# Install Get-WindowsAutoPilotInfo Script
+Write-Host "Installing Get-WindowsAutoPilotInfo Script..."
+Install-Script -Name Get-WindowsAutoPilotInfo
+
 # Extract device's hardware hash and serial number and output to C:\HWID\AutopilotHWID.csv
-# Write-Host "Extracting device hardware hash and serial number..."
-# New-Item -Type Directory -Path "C:\HWID"
-# Set-Location -Path "C:\HWID"
-# Get-WindowsAutopilotInfo -OutputFile AutopilotHWID.csv
+Write-Host "Extracting device hardware hash and serial number..."
+New-Item -Type Directory -Path "C:\HWID"
+Set-Location -Path "C:\HWID"
+Get-WindowsAutopilotInfo -OutputFile AutopilotHWID.csv
 
-# Ask for credentials
+# Ask for credentials & upload hardware hash to Auto Pilot
 Write-Host "Please sign in with an account with the Intune Administrator role..." -f DarkRed
-
-# Upload hardware hash to Auto Pilot 
-Write-Host "Uploading device hardware hash and serial number..."
 Get-WindowsAutopilotInfo -Online
+Write-Host "Uploading device hardware hash and serial number..."
+
+# Wait before cleanup
+[int]$Time = 5
+$Length = $Time / 100
+For ($Time; $Time -gt 0; $Time--) {
+$min = [int](([string]($Time/60)).split('.')[0])
+$text = " " + $min + " minutes " + ($Time % 60) + " seconds left"
+Write-Progress -Activity "Watiting..." -Status $Text -PercentComplete ($Time / $Length)
+Start-Sleep 1
+}
 
 # Post-Script Cleanup
 Write-Host "Post-Script Cleanup..."
