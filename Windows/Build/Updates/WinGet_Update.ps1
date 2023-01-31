@@ -7,33 +7,14 @@
  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝
 
 .SYNOPSIS  
-    This script runs my standard build.
+    This script checks all apps installed on a machine and attempts to update them with winget.
 .DESCRIPTION  
-    Run this to automatically run LSUClient and Windows Updates as well as install various standard applications using winget. Must be ran as Administrator.
+    Checks for updates using winget. If updates are found the script will automatically update them to the latest version.
 .NOTES  
-    File Name  : StandardBuild.ps1  
+    File Name  : WinGet_Update.ps1  
     Author     : Charlie Graham 
     Requires   : PowerShell v2, winget
 #>
-
-# Change directory to scripts folder in C:\Temp
-Set-Location "C:\Temp\Build"
-
-# Install applications
-## Install VCRedist
-Write-Host "Installing VCRedist..."
-Invoke-WebRequest -Uri https://aka.ms/vs/17/release/vc_redist.x64.exe -OutFile "C:\Temp\Build\vc_redist.x64.exe"
-.\vc_redist.x64.exe /install /quiet /norestart
-
-## Install Microsoft.UI.XAML.2.7
-Write-Host "Installing Microsoft.UI.XAML.2.7..."
-Add-AppxPackage -Path "C:\Temp\Build\Components\Microsoft.UI.Xaml.2.7_7.2208.15002.0_x64__8wekyb3d8bbwe.appx"
-
-## Install Microsoft.VCLibs.140.00.UWPDesktop
-Write-Host "Installing Microsoft.VCLibs.140.00.UWPDesktop..."
-Add-AppxPackage -Path "C:\Temp\Build\Components\Microsoft.VCLibs.x64.14.00.Desktop.appx"
-
-## Install WinGet
 function Start-WinGetUpdate {
     [CmdletBinding()]
     Param(
@@ -183,14 +164,3 @@ function Start-WinGetUpdate {
 }
 
 Start-WinGetUpdate
-
-## Install Apps
-Write-Host "Installing Apps..."
-winget install -e --id Greenshot.Greenshot;winget install -e --id Mozilla.Firefox;winget install -e --id Notepad++.Notepad++;winget install -e --id Spotify.Spotify;winget install -e --id VSCodium.VSCodium;winget install -e --id REALiX.HWiNFO;winget install -e --id Klocman.BulkCrapUninstaller;winget install -e --id AgileBits.1Password;winget install -e --id Microsoft.WindowsTerminal;winget install -e --id Git.Git;winget install -e --id Appest.TickTick;winget install -e --id Olivia.VIA;winget install -e --id VideoLAN.VLC
-
-# Run LSUClient_auto
-.\"\Updates\Lenovo\LSUClient_auto.ps1"
-
-# Run RunWinUpdates_auto
-Write-Host "Running Windows Updates..."
-.\"\Updates\Windows Update\FireAndForget\FireAndForgetWindowsUpdates.ps1"
