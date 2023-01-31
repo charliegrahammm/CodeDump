@@ -17,15 +17,15 @@
 #>
 
 # Change directory to scripts folder in C:\Temp
-Set-Location "C:\Temp"
+Set-Location "C:\Temp\Build"
 
 # Decrapify
 Write-Host "Running Decrapifier Script..."
-.\"\Windows Update\FireAndForget\Decrapify.ps1"
+.\"\Updates\Windows Update\FireAndForget\Decrapify.ps1"
 
 # Run LSUClient_auto
-.\"\Lenovo\LSUClient_auto.ps1"
+.\"\Updates\Lenovo\LSUClient_auto.ps1"
 
 # Run RunWinUpdates_auto
 Write-Host "Running Windows Updates..."
-.\"\Windows Update\FireAndForget\FireAndForgetWindowsUpdates.ps1"
+.\"\Updates\Windows Update\FireAndForget\FireAndForgetWindowsUpdates.ps1"

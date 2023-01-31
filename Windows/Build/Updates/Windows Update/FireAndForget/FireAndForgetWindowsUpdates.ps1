@@ -38,7 +38,7 @@ else {
     Import-Module PSWindowsUpdate
 }
 
-$TranscriptFilename = "C:\Windows\Temp\FireAndForgetUpdates - $(get-date -f "yyyy-MM-dd HH.mm.ss").txt"
+$TranscriptFilename = "C:\Temp\FireAndForgetUpdates - $(get-date -f "yyyy-MM-dd HH.mm.ss").txt"
 Start-Transcript -Path $TranscriptFilename
 
 Try {
@@ -138,7 +138,7 @@ Try {
 		# Create the scheduled task
 		$STT = New-ScheduledTaskTrigger -AtLogon -User $LocalUsername
 		# $ActionArguments = "-NoProfile -ExecutionPolicy Bypass -File ""$PSCommandPath"""
-		$ActionArguments = "-NoProfile -ExecutionPolicy Bypass -File ""C:\Temp\Windows Update\FireAndForget\FireAndForgetWindowsUpdates.ps1"""
+		$ActionArguments = "-NoProfile -ExecutionPolicy Bypass -File ""C:\Temp\Build\Updates\Windows Update\FireAndForget\FireAndForgetWindowsUpdates.ps1"""
 		$Action = New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument $ActionArguments
 		$STP = New-ScheduledTaskPrincipal $LocalUsername -RunLevel Highest
 		$STS = New-ScheduledTaskSettingsSet -RestartInterval (New-TimeSpan -Minutes 1) -RestartCount 3 -StartWhenAvailable -Compatibility Win8
