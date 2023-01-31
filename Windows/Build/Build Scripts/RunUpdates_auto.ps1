@@ -20,8 +20,8 @@
 Set-Location "C:\Temp\Build\"
 
 # Run LSUClient_auto
-.\"\Lenovo\LSUClient_auto.ps1"
+.\"\Updates\Lenovo\LSUClient_auto.ps1"
 
 # Run RunWinUpdates_auto
 Write-Host "Running Windows Updates..."
-.\"\Windows Update\FireAndForget\FireAndForgetWindowsUpdates.ps1"
+.\"\Updates\Windows Update\FireAndForget\FireAndForgetWindowsUpdates.ps1"

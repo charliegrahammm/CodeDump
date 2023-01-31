@@ -15,6 +15,25 @@
     Author     : Charlie Graham 
     Requires   : PowerShell v2, winget
 #>
+
+# Change directory to scripts folder in C:\Temp
+Set-Location "C:\Temp\Build"
+
+# Install applications
+## Install VCRedist
+Write-Host "Installing VCRedist..."
+Invoke-WebRequest -Uri https://aka.ms/vs/17/release/vc_redist.x64.exe -OutFile "C:\Temp\Build\vc_redist.x64.exe"
+.\vc_redist.x64.exe /install /quiet /norestart
+
+## Install Microsoft.UI.XAML.2.7
+Write-Host "Installing Microsoft.UI.XAML.2.7..."
+Add-AppxPackage -Path "C:\Temp\Build\Components\Microsoft.UI.Xaml.2.7_7.2208.15002.0_x64__8wekyb3d8bbwe.appx"
+
+## Install Microsoft.VCLibs.140.00.UWPDesktop
+Write-Host "Installing Microsoft.VCLibs.140.00.UWPDesktop..."
+Add-AppxPackage -Path "C:\Temp\Build\Components\Microsoft.VCLibs.x64.14.00.Desktop.appx"
+
+# Create wingetupdate function
 function Start-WinGetUpdate {
     [CmdletBinding()]
     Param(
