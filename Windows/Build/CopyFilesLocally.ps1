@@ -1,3 +1,6 @@
+# Remove old files
+Remove-Item 'C:\Temp' -Recurse
+
 # Create C:\Temp directory
 New-Item -Type Directory "C:\Temp" -Force
 
