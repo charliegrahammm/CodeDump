@@ -21,9 +21,9 @@ Set-Location "C:\Temp\Build"
 
 # Install applications
 ## Install VCRedist
-Write-Host "Installing VCRedist..."
-Invoke-WebRequest -Uri https://aka.ms/vs/17/release/vc_redist.x64.exe -OutFile "C:\Temp\Build\vc_redist.x64.exe"
-.\vc_redist.x64.exe /install /quiet /norestart
+# Write-Host "Installing VCRedist..."
+# Invoke-WebRequest -Uri https://aka.ms/vs/17/release/vc_redist.x64.exe -OutFile "C:\Temp\Build\vc_redist.x64.exe"
+# .\vc_redist.x64.exe /install /quiet /norestart
 
 ## Install Microsoft.UI.XAML.2.7
 Write-Host "Installing Microsoft.UI.XAML.2.7..."
