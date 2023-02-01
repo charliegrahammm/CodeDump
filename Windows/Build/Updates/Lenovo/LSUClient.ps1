@@ -52,7 +52,7 @@ else {
 gcim Win32_ComputerSystem | Format-List Manufacturer, Model, SystemFamily 
 
 # Gather updates in a loop
-Write-Host "Gathering updates..." -ForegroundColor Green
+Write-Host "Gathering system updates..." -ForegroundColor Green
 $MaxRounds = 3
 for ($Round = 1; $Round -le $MaxRounds; $Round++) {
     Write-Host "Starting round $Round"

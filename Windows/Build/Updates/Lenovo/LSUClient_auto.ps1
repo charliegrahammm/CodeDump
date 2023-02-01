@@ -73,7 +73,7 @@ if ($Manufacturer -like "Lenovo*") {
     }
 
     # Gather updates after installation
-    Write-Output "Gathering updates..."
+    Write-Output "Gathering system updates..."
     $updates = Get-LSUpdate | Where-Object { $_.Installer.Unattended } -Verbose
     Write-Output "$($updates.Count) updates found"
     Write-Output $updates

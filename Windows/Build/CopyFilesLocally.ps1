@@ -1,5 +1,14 @@
 # Remove old files
-Remove-Item 'C:\Temp' -Recurse
+$Folder = "C:\Temp\Build"
+
+Write-Host "Clearing old files..."
+if (Test-Path -Path $Folder) {
+    Remove-Item $Folder -Recurse
+    Write-Host "Done" -ForegroundColor Green
+} 
+else {
+    Write-Host "Nothing to clean up" -ForegroundColor Green
+}
 
 # Create C:\Temp directory
 New-Item -Type Directory "C:\Temp" -Force
