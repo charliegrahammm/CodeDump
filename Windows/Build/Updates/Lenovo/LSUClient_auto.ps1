@@ -44,7 +44,7 @@ if ($Manufacturer -like "Lenovo*") {
     }
 
     # Gather updates in a loop
-    Write-Output "Gathering Lenovo updates..."
+    Write-Output "Gathering system updates..."
     $MaxRounds = 3
     for ($Round = 1; $Round -le $MaxRounds; $Round++) {
         Write-Output "Starting round $Round"
