@@ -38,7 +38,7 @@ else {
     Import-Module PSWindowsUpdate
 }
 
-$TranscriptFilename = "C:\Temp\FireAndForgetUpdates - $(get-date -f "yyyy-MM-dd HH.mm.ss").txt"
+$TranscriptFilename = "C:\Logs\FireAndForgetUpdates - $(get-date -f "yyyy-MM-dd HH.mm.ss").txt"
 Start-Transcript -Path $TranscriptFilename
 
 Try {
@@ -186,7 +186,7 @@ Try {
 		Write-Host -ForegroundColor Green "Fire And Forget Windows Updates are now complete."
 
 		# Cleanup Files
-		Remove-Item 'C:\Temp' -Recurse
+		Remove-Item 'C:\Temp\Build' -Recurse
 	} 
 }
 Finally {
