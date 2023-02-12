@@ -7,21 +7,13 @@
  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝
 
 .SYNOPSIS  
-    This script Installs Scoop then uses Scoop to install TinyNvidiaUpdateChecker.
+    This script runs ZenitH-AT/nvidia-update and forces a check for an update.
 .DESCRIPTION  
-    Uses Scoop to install TinyNvidiaUpdateChecker.
+    Uses ZenitH-AT/nvidia-update to update Nvidia Drivers.
 .NOTES  
-    File Name  : Install_TinyNvidiaUpdateChecker.ps1  
+    File Name  : Nvidia-Update.ps1  
     Author     : Charlie Graham 
-    Requires   : PowerShell v2
+    Requires   : Windows 10+ only and PowerShell 6+ recommended
 #>
-
-# Install Scoop
-Write-Host "Installing Scoop" -ForegroundColor Green
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser # Optional: Needed to run a remote script the first time
-irm get.scoop.sh | iex
-
-# Install TinyNvidiaUpdateChecker
-Write-Host "TinyNvidiaUpdateChecker" -ForegroundColor Green
-scoop bucket add extras
-scoop install tinynvidiaupdatechecker
+# Run ZenitH-AT/nvidia-update
+Invoke-Command ([ScriptBlock]::Create(".{$(Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/ZenitH-AT/nvidia-update/raw/main/schedule.ps1")} -Force -DownloadDir `"'C:\Build\NVIDIA download'`""))

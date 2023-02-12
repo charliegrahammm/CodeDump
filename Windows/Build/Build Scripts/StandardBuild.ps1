@@ -23,9 +23,6 @@ Set-Location "C:\Temp\Build"
 Write-Host "Installing Apps..."
 winget install -e --id Greenshot.Greenshot;winget install -e --id Mozilla.Firefox;winget install -e --id Notepad++.Notepad++;winget install -e --id Spotify.Spotify;winget install -e --id VSCodium.VSCodium;winget install -e --id REALiX.HWiNFO;winget install -e --id Klocman.BulkCrapUninstaller;winget install -e --id AgileBits.1Password;winget install -e --id Microsoft.WindowsTerminal;winget install -e --id Git.Git;winget install -e --id Appest.TickTick;winget install -e --id Olivia.VIA;winget install -e --id VideoLAN.VLC
 
-# Install TinyNvidiaUpdate
-.\"Updates\Install_TinyNvidiaUpdateChecker.ps1"
-
 # Run LSUClient_auto
 .\"\Updates\Lenovo\LSUClient_auto.ps1"
 
