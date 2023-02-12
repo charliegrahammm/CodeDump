@@ -7,28 +7,19 @@
  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝
 
 .SYNOPSIS  
-    This script runs my standard build.
+    This script Installs Scoop then uses Scoop to run updates.
 .DESCRIPTION  
-    Run this to automatically run LSUClient and Windows Updates as well as install various standard applications using winget. Must be ran as Administrator.
+    Uses Scoop to run updates.
 .NOTES  
-    File Name  : StandardBuild.ps1  
+    File Name  : Scoop_Update.ps1  
     Author     : Charlie Graham 
-    Requires   : PowerShell v2, winget
+    Requires   : PowerShell v2
 #>
 
-# Change directory to scripts folder in C:\Temp
-Set-Location "C:\Temp\Build"
+# Install Scoop
+Write-Host "Installing Scoop" -ForegroundColor Green
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser # Optional: Needed to run a remote script the first time
+irm get.scoop.sh | iex
 
-## Install Apps
-Write-Host "Installing Apps..."
-winget install -e --id Greenshot.Greenshot;winget install -e --id Mozilla.Firefox;winget install -e --id Notepad++.Notepad++;winget install -e --id Spotify.Spotify;winget install -e --id VSCodium.VSCodium;winget install -e --id REALiX.HWiNFO;winget install -e --id Klocman.BulkCrapUninstaller;winget install -e --id AgileBits.1Password;winget install -e --id Microsoft.WindowsTerminal;winget install -e --id Git.Git;winget install -e --id Appest.TickTick;winget install -e --id Olivia.VIA;winget install -e --id VideoLAN.VLC
-
-# Install TinyNvidiaUpdate
-.\"Updates\Install_TinyNvidiaUpdateChecker.ps1"
-
-# Run LSUClient_auto
-.\"\Updates\Lenovo\LSUClient_auto.ps1"
-
-# Run RunWinUpdates_auto
-Write-Host "Running Windows Updates..."
-.\"\Updates\Windows Update\FireAndForget\FireAndForgetWindowsUpdates.ps1"
+# Run Scoop Updates
+scoop update *
