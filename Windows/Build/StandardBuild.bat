@@ -2,6 +2,13 @@
 
 pushd %~dp0
 
+ECHO Forcing Time Sync...
+net stop w32time
+w32tm /unregister
+w32tm /register
+net start w32time
+w32tm /resync
+
 ECHO Copying Files...
 PowerShell.exe -NoProfile -ExecutionPolicy Bypass -File "CopyFilesLocally.ps1"
 
