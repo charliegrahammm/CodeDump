@@ -16,7 +16,7 @@
     Requires   : PowerShell v2
 #>
 
-# Host-1
+# Host-
 Get-VM -ComputerName vm-host-1 | Select-Object -Property Name, ComputerName, ConfigurationLocation | Export-Csv C:\export\vm-host-1.csv
 
 # Host-2
