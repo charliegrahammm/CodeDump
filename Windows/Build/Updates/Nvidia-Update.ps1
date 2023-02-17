@@ -17,5 +17,5 @@
 #>
 # Run ZenitH-AT/nvidia-update
 Write-Host "Attempting Nvidia Driver Updates..." -ForegroundColor Green
-# Invoke-Expression (Invoke-WebRequest -Uri "https://github.com/ZenitH-AT/nvidia-update/raw/main/schedule.ps1")
+
 Invoke-Command ([ScriptBlock]::Create(".{$(Invoke-WebRequest -Uri "https://github.com/ZenitH-AT/nvidia-update/raw/main/schedule.ps1")} -Silent"))
