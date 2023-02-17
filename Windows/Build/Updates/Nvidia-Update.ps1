@@ -16,4 +16,6 @@
     Requires   : Windows 10+ only and PowerShell 6+ recommended
 #>
 # Run ZenitH-AT/nvidia-update
-Invoke-Command ([ScriptBlock]::Create(".{$(Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/ZenitH-AT/nvidia-update/raw/main/schedule.ps1")} -Force -DownloadDir `"'C:\Build\NVIDIA download'`""))
+Write-Host "Attempting Nvidia Driver Updates..." -ForegroundColor Green
+# Invoke-Expression (Invoke-WebRequest -Uri "https://github.com/ZenitH-AT/nvidia-update/raw/main/schedule.ps1")
+Invoke-Command ([ScriptBlock]::Create(".{$(Invoke-WebRequest -Uri "https://github.com/ZenitH-AT/nvidia-update/raw/main/schedule.ps1")} -Silent"))
