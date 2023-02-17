@@ -7,15 +7,18 @@
  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝
 
 .SYNOPSIS  
-    This script runs ZenitH-AT/nvidia-update and forces a check for an update.
+    This script Installs Chocolatey then installs NVidia Display Driver and forces a check for an update.
 .DESCRIPTION  
-    Uses ZenitH-AT/nvidia-update to update Nvidia Drivers.
+    Uses Chocolatey NVidia Display Driver to update Nvidia Drivers.
 .NOTES  
     File Name  : Nvidia-Update.ps1  
     Author     : Charlie Graham 
     Requires   : Windows 10+ only and PowerShell 6+ recommended
 #>
-# Run ZenitH-AT/nvidia-update
-Write-Host "Attempting Nvidia Driver Updates..." -ForegroundColor Green
+# Install chocolatey
+Write-Host "Installing Chocolatey..." -ForegroundColor Green
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
-Invoke-Command ([ScriptBlock]::Create(".{$(Invoke-WebRequest -Uri "https://github.com/ZenitH-AT/nvidia-update/raw/main/schedule.ps1")} -Silent"))
+# Install NVidia Display Driver
+Write-Host "Updating NVidia Drivers..." -ForegroundColor Green
+choco install nvidia-display-driver --force -y
