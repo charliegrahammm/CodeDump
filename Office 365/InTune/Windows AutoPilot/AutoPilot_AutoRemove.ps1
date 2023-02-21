@@ -89,6 +89,6 @@ if ($decision -eq 0) {
     systemreset.exe --factoryreset
 }
 else {
-    Write-Host 'Cancelled' -f DarkRed
+    Write-Host 'Exiting...' -f DarkRed
     exit
 }
