@@ -6,7 +6,7 @@ net stop CryptSvc
 net stop BITS  
 ren %windir%\system32\catroot2 catroot2.old  
 ren %windir%\SoftwareDistribution SoftwareDistribution.old  
-ren "%ALLUSERSPROFILE%\application dataMicrosoftNetworkdownloader" downloader.old  
+ren "%ALLUSERSPROFILE%\application data\Microsoft\Network\downloader" downloader.old  
 net Start BITS  
 net start CryptSvc  
 net start wuauserv  
