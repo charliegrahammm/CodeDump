@@ -57,22 +57,31 @@ $Group = Read-Host -Prompt 'Input AD group name'
 Start-Transcript -Path C:\Temp\Add-ADUsers.log -Append
 
 # Import the data from CSV file and assign it to variable
-$ADUser = Import-Csv $Users
+# $ADUser = Import-Csv $Users
 
-# Add users to group
-foreach ($User in $Users) {
+# # Add users to group
+# foreach ($User in $Users) {
 
-# Retrieve AD user group membership
-$ExistingGroups = Get-ADPrincipalGroupMembership $ADUser.SamAccountName | Select-Object Name
+# # Retrieve UPN
+# $UPN = $User.UserPrincipalName
 
-# User already member of group
-    if ($ExistingGroups.Name -eq $Group) {
-        Write-Host "$UPN already exists in $Group" -ForeGroundColor Yellow
-    }
-    else {
-        # Add user to group
-        Add-ADGroupMember -Identity $Group -Members $ADUser.SamAccountName
-        Write-Host "Added $UPN to $Group" -ForeGroundColor Green
-    }
-}
+# # Retrieve AD user group membership
+# $ExistingGroups = Get-ADPrincipalGroupMembership $ADUser.SamAccountName | Select-Object Name
+
+# # User already member of group
+#     if ($ExistingGroups.Name -eq $Group) {
+#         Write-Host "$UPN already exists in $Group" -ForeGroundColor Yellow
+#     }
+#     else {
+#         # Add user to group
+#         Add-ADGroupMember -Identity $Group -Members $ADUser.SamAccountName
+#         Write-Host "Added $UPN to $Group" -ForeGroundColor Green
+#     }
+# }
+
+
+Import-Csv -Path $Users | ForEach-Object {Add-ADGroupMember -Identity $Group -Members $_.'User-Name'}
+
+
+
 Stop-Transcript
