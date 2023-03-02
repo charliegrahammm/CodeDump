@@ -88,8 +88,8 @@ Function Add-UsersToGroup {
         $users = (Import-Csv -Path $path -Delimiter $delimiter -header "name").name
 
         # Find the users in the Active Directory
-        $users | ForEach {
-            $user =  Get-ADUser -filter "$filter -eq '$_'" | Select ObjectGUID 
+        $users | ForEach-Object {
+            $user =  Get-ADUser -filter "$filter -eq '$_'" | Select-Object ObjectGUID 
 
             if ($user) {
                 Add-ADGroupMember -Identity $groupName -Members $user
