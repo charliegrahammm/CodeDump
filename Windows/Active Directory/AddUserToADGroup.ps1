@@ -29,59 +29,85 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 # Force TLS 1.2
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
+# Start transcript
+Start-Transcript -Path C:\Temp\AddUserToADGroup.log -Append
+
 # Allow PSGallery Repository
 Write-Host "Allowing PSGallery" -ForegroundColor Green
 Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
 
 # Install NuGet if not already
-Write-Host "Install NuGet" -ForegroundColor Green
+Write-Host "Installing NuGet" -ForegroundColor Green
 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201
 
 # Install ActiveDirectory if not already
 if (Get-Module -ListAvailable -Name ActiveDirectory) {
-    Write-Host "ActiveDirectory exists" -ForegroundColor Green
+    Write-Host "ActiveDirectory exists, importing..." -ForegroundColor Green
     Update-Module -Name ActiveDirectory
     Import-Module ActiveDirectory
 } 
 else {
-    Write-Host "ActiveDirectory does not exist" -ForegroundColor Red
+    Write-Host "ActiveDirectory does not exist, installing..." -ForegroundColor Red
     Install-Module -Name ActiveDirectory
     Import-Module ActiveDirectory
 }
 
-# Gather information
-$Users = Read-Host -Prompt 'Input file path of csv file - e.g C:\Temp\users.csv (no "")'
-$Group = Read-Host -Prompt 'Input AD group name'
+# Set Delimiter
+$Delimiter = ","
 
-# Start transcript
-Start-Transcript -Path C:\Temp\Add-ADUsers.log -Append
+# Request user input for provided data format
+Function Get-ProjectType {
+$type=Read-Host "
+CSV Data Format:
+1 - DisplayName
+2 - Email
+3 - UserPrincipalName
+Please choose the format of the data you are providing"
+    Switch ($type){
+        1 {$choice="DisplayName"}
+        2 {$choice="Email"}
+        3 {$choice="UserPrincipalName"}
+    }
+    return $choice
+}
+$Filter = Get-ProjectType
 
-# Import the data from CSV file and assign it to variable
-# $ADUser = Import-Csv $Users
+# Request user input for location of CSV
+$Path = Read-Host -Prompt 'Input file path of csv file - e.g C:\Temp\users.csv (no "")'
 
-# # Add users to group
-# foreach ($User in $Users) {
+# Request user input for AD Group Name
+$GroupName = Read-Host -Prompt 'Input AD group name'
 
-# # Retrieve UPN
-# $UPN = $User.UserPrincipalName
+Function Add-UsersToGroup {
+    <#
+    .SYNOPSIS
+      Get users from the requested DN
+    #>
+    process{
+        # Import the CSV File
+        $users = (Import-Csv -Path $path -Delimiter $delimiter -header "name").name
 
-# # Retrieve AD user group membership
-# $ExistingGroups = Get-ADPrincipalGroupMembership $ADUser.SamAccountName | Select-Object Name
+        # Find the users in the Active Directory
+        $users | ForEach {
+            $user =  Get-ADUser -filter "$filter -eq '$_'" | Select ObjectGUID 
 
-# # User already member of group
-#     if ($ExistingGroups.Name -eq $Group) {
-#         Write-Host "$UPN already exists in $Group" -ForeGroundColor Yellow
-#     }
-#     else {
-#         # Add user to group
-#         Add-ADGroupMember -Identity $Group -Members $ADUser.SamAccountName
-#         Write-Host "Added $UPN to $Group" -ForeGroundColor Green
-#     }
-# }
+            if ($user) {
+                Add-ADGroupMember -Identity $groupName -Members $user
+                Write-Host "$_ added to the group"
+            }else {
+                Write-Warning "$_ not found in the Active Directory"
+            }
+        }
+    }
+}
 
+# Load the Active Directory Module
+Import-Module -Name ActiveDirectory
 
-Import-Csv -Path $Users | ForEach-Object {Add-ADGroupMember -Identity $Group -Members $_.'User-Name'}
+# Add user from CSV to given Group
+Add-UsersToGroup
 
-
-
+# Stop Transcript
 Stop-Transcript
+
+pause
