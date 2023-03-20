@@ -21,7 +21,7 @@ Set-Location "C:\Temp\Build"
 
 ## Install Apps
 Write-Host "Installing Apps..."
-winget install -e --id ShareX.ShareX;winget install -e --id Mozilla.Firefox;winget install -e --id Notepad++.Notepad++;winget install -e --id REALiX.HWiNFO;winget install -e --id Klocman.BulkCrapUninstaller;winget install -e --id Microsoft.WindowsTerminal
+winget install -e --id ShareX.ShareX;winget install -e --id Mozilla.Firefox;winget install -e --id Notepad++.Notepad++;winget install -e --id REALiX.HWiNFO;winget install -e --id Klocman.BulkCrapUninstaller;winget install -e --id Microsoft.WindowsTerminal;winget install wingetui
 
 # Run LSUClient_auto
 .\"\Updates\Lenovo\LSUClient_auto.ps1"

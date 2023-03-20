@@ -21,7 +21,7 @@ Set-Location "C:\Temp\Build"
 
 ## Install Apps
 Write-Host "Installing Apps..."
-winget install -e --id ShareX.ShareX;winget install -e --id Mozilla.Firefox;winget install -e --id Notepad++.Notepad++;winget install -e --id Spotify.Spotify;winget install -e --id VSCodium.VSCodium;winget install -e --id REALiX.HWiNFO;winget install -e --id Klocman.BulkCrapUninstaller;winget install -e --id AgileBits.1Password;winget install -e --id Microsoft.WindowsTerminal;winget install -e --id Git.Git;winget install -e --id Appest.TickTick;winget install -e --id Olivia.VIA;winget install -e --id VideoLAN.VLC
+winget install -e --id ShareX.ShareX;winget install -e --id Mozilla.Firefox;winget install -e --id Notepad++.Notepad++;winget install -e --id Spotify.Spotify;winget install -e --id VSCodium.VSCodium;winget install -e --id REALiX.HWiNFO;winget install -e --id Klocman.BulkCrapUninstaller;winget install -e --id AgileBits.1Password;winget install -e --id Microsoft.WindowsTerminal;winget install -e --id Git.Git;winget install -e --id Appest.TickTick;winget install -e --id Olivia.VIA;winget install -e --id VideoLAN.VLC;winget install wingetui
 
 # Run LSUClient_auto
 .\"\Updates\Lenovo\LSUClient_auto.ps1"
