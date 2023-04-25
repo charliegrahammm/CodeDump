@@ -56,6 +56,6 @@ $GroupName = Read-Host -Prompt 'Input AD group name'
 Import-Module -Name ActiveDirectory
 
 # Extract list of users
-Get-ADGroupMember -identity $GroupName | select name | Export-csv -path c:\temp\GroupMembership\$GroupName.csv -Notypeinformation -Force
+Get-ADGroupMember -identity $GroupName | Select-Object name | Export-csv -path c:\temp\GroupMembership\$GroupName.csv -Notypeinformation -Force
 
 pause
