@@ -49,13 +49,35 @@ else {
     Import-Module ActiveDirectory
 }
 
-# Request user input for AD Group Name
-$GroupName = Read-Host -Prompt 'Input AD group name'
+# Create C:\Temp\GroupMembership Folder if it doesnt exist
+if (Test-Path -Path C:\temp\GroupMembership -PathType Container) {
+    Write-Host "Path already exists..." -ForegroundColor Green
+} 
+else {
+    Write-Host "Creating Path..." -ForegroundColor Green
+    New-Item -Path "C:\Temp\GroupMembership" -ItemType Directory
+}
 
-# Load the Active Directory Module
-Import-Module -Name ActiveDirectory
+# Loop until user declines to run again
+do {
+    # Request user input for AD Group Name
+    $GroupName = Read-Host -Prompt 'Input AD group name'
 
-# Extract list of users
-Get-ADGroupMember -identity $GroupName | Select-Object name | Export-csv -path c:\temp\GroupMembership\$GroupName.csv -Notypeinformation -Force
+    # Load the Active Directory Module
+    Import-Module -Name ActiveDirectory
+
+    # Extract list of users
+    Get-ADGroupMember -identity $GroupName | Select-Object name | Export-csv -path c:\temp\GroupMembership\$GroupName.csv -Notypeinformation -Force
+    
+    # Check if file was successfully created
+    if (Test-Path -Path C:\temp\GroupMembership\$GroupName.csv -PathType Leaf) {
+        Write-Host "Extract file created successfully" -ForegroundColor Green
+    }
+    else {
+        Write-Host "There was a problem extracting users from the specified AD group" -ForegroundColor Red
+    }
+
+    # Ask user if they want to run again
+} until($Host.UI.PromptForChoice('', 'Do you want to extract another group', ('&Yes', '&No'), 0))
 
 pause
