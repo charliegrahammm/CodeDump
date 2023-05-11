@@ -21,4 +21,4 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 
 # Install NVidia Display Driver
 Write-Host "Updating NVidia Drivers..." -ForegroundColor Green
-choco install nvidia-display-driver --force -y
+choco install nvidia-display-driver -y
