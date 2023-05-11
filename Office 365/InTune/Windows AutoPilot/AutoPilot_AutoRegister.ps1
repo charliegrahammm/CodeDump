@@ -66,6 +66,10 @@ else {
     Import-Module WindowsAutoPilotIntune
 }
 
+# Install Get-WindowsAutoPilotInfo script
+Write-host "Installing Get-WindowsAutoPilotInfo script..." -ForegroundColor Green
+Install-Script -Name Get-WindowsAutoPilotInfo
+
 # Extract device's hardware hash and serial number and output to C:\HWID\AutopilotHWID.csv
 Write-Host "Extracting device hardware hash and serial number..."
 New-Item -Type Directory -Path "C:\HWID"
