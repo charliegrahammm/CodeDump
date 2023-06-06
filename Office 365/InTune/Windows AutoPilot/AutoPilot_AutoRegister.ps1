@@ -20,6 +20,14 @@
 Write-Host "Initial Cleanup..."
 Remove-Item "C:\HWID" -Recurse -Force
 
+## Install Microsoft.UI.XAML.2.7
+Write-Host "Installing Microsoft.UI.XAML.2.7..."
+Add-AppxPackage -Path "C:\Temp\Components\Microsoft.UI.Xaml.2.7_7.2208.15002.0_x64__8wekyb3d8bbwe.appx"
+
+## Install Microsoft.VCLibs.140.00.UWPDesktop
+Write-Host "Installing Microsoft.VCLibs.140.00.UWPDesktop..."
+Add-AppxPackage -Path "C:\Temp\Components\Microsoft.VCLibs.x64.14.00.Desktop.appx"
+
 # Force TLS 1.2
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
