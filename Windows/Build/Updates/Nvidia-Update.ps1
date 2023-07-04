@@ -197,15 +197,15 @@ Write-Host "Deleting downloaded files"
 Remove-Item $nvidiaTempFolder -Recurse -Force
 
 
-# Driver installed, requesting a reboot
-Write-Host -ForegroundColor Green "Driver installed. You may need to reboot to finish installation."
-Write-Host "Would you like to reboot now?"
-$Readhost = Read-Host "(Y/N) Default is no"
-Switch ($ReadHost) {
-    Y { Write-host "Rebooting now..."; Start-Sleep -s 2; Restart-Computer }
-    N { Write-Host "Exiting script in 5 seconds."; Start-Sleep -s 5 }
-    Default { Write-Host "Exiting script in 5 seconds"; Start-Sleep -s 5 }
-}
+# # Driver installed, requesting a reboot
+# Write-Host -ForegroundColor Green "Driver installed. You may need to reboot to finish installation."
+# Write-Host "Would you like to reboot now?"
+# $Readhost = Read-Host "(Y/N) Default is no"
+# Switch ($ReadHost) {
+#     Y { Write-host "Rebooting now..."; Start-Sleep -s 2; Restart-Computer }
+#     N { Write-Host "Exiting script in 5 seconds."; Start-Sleep -s 5 }
+#     Default { Write-Host "Exiting script in 5 seconds"; Start-Sleep -s 5 }
+# }
 
 
 # End of script
