@@ -18,7 +18,15 @@
 
 # Initial Cleanup
 Write-Host "Initial Cleanup..."
-Remove-Item "C:\HWID" -Recurse -Force
+
+if (Test-Path -Path "C:\HWID" -PathType Leaf) {
+    Write-Host "Previous traces found, cleaning up..." -ForegroundColor Red
+    Remove-Item "C:\HWID" -Recurse -Force
+    Write-Host "Cleaned up successfully!" -ForegroundColor Green
+} 
+else {
+    Write-Host "No previous traces found, continuing..." -ForegroundColor Green
+}
 
 ## Install Microsoft.UI.XAML.2.7
 Write-Host "Installing Microsoft.UI.XAML.2.7..."
