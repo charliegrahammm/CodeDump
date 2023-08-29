@@ -43,12 +43,12 @@ Install-PackageProvider -Name NuGet -Confirm:$False -Force -ErrorAction Silently
 # Install Microsoft.Graph.Intune if not already
 if (Get-Module -ListAvailable -Name Microsoft.Graph.Intune) {
     Write-Host "Microsoft.Graph.Intune Module exists" -ForegroundColor Green
-    Update-Module -Name Microsoft.Graph.Intune
+    Update-Module -Name Microsoft.Graph.Intune -RequiredVersion 2.0.2.180 
     Import-Module Microsoft.Graph.Intune
 } 
 else {
     Write-Host "Microsoft.Graph.Intune Module does not exist" -ForegroundColor Red
-    Install-Module -Name Microsoft.Graph.Intune
+    Install-Module -Name Microsoft.Graph.Intune -RequiredVersion 2.0.2.180 
     Import-Module Microsoft.Graph.Intune
 }
 
@@ -67,12 +67,12 @@ else {
 # Install WindowsAutoPilotIntune Module if not already
 if (Get-Module -ListAvailable -Name WindowsAutoPilotIntune) {
     Write-Host "WindowsAutoPilotIntune Module exists" -ForegroundColor Green
-    Update-Module -Name WindowsAutoPilotIntune
+    Update-Module -Name WindowsAutoPilotIntune -RequiredVersion 5.0 
     Import-Module WindowsAutoPilotIntune
 } 
 else {
     Write-Host "WindowsAutoPilotIntune Module does not exist" -ForegroundColor Red
-    Install-Module -Name WindowsAutoPilotIntune
+    Install-Module -Name WindowsAutoPilotIntune -RequiredVersion 5.0
     Import-Module WindowsAutoPilotIntune
 }
 
