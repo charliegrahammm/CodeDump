@@ -98,7 +98,7 @@ Function Get-DirectReport {
 
 
 
-$TargetUsers = Get-ADUser -Filter * -SearchBase “OU=Left,OU=Users,OU=Corsham,DC=pharmaxo,DC=local” | Select-Object -ExpandProperty SamAccountName
+$TargetUsers = Get-ADUser -Filter * -SearchBase “OU=Users,OU=Corsham,DC=pharmaxo,DC=local” | Select-Object -ExpandProperty SamAccountName
 
 
 $Results = foreach ( $TargetUser in $TargetUsers ) {
