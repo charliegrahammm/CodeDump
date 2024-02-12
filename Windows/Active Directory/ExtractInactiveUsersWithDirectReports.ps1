@@ -16,6 +16,15 @@
     Requires   : PowerShell v2
 #>
 
+##### READ THIS #######
+
+https://thesysadminchannel.com/get-direct-reports-in-active-directory-using-powershell-recursive/
+
+
+
+
+
+
 $TargetUsers = Get-ADUser -Filter * -SearchBase “OU=Left,OU=Users,OU=Corsham,DC=pharmaxo,DC=local” | Select-Object -ExpandProperty SamAccountName
 #$TargetUser = 'charlie.graham'
 $ExportCSV = 'C:\Temp\InactiveUsersWithDirectReports.csv'
