@@ -92,20 +92,15 @@ Function Get-DirectReport {
      
         END {}
      
-    }
-
-
-
-
-
-$TargetUsers = Get-ADUser -Filter * -SearchBase “OU=Users,OU=Corsham,DC=pharmaxo,DC=local” | Select-Object -ExpandProperty SamAccountName
-
-
-$Results = foreach ( $TargetUser in $TargetUsers ) {
-   $TargetUser | Get-DirectReport
 }
 
-$Results | Export-Csv -Path $ExportCSV -NoTypeInformation
+# Specify Left OU
+$TargetUsers = Get-ADUser -Filter * -SearchBase “OU=Left,OU=Users,OU=Corsham,DC=pharmaxo,DC=local” | Select-Object -ExpandProperty SamAccountName 
 
+# For each user in the specified Left OU, get their direct report and set as $Results variable
+$Results = foreach ( $TargetUser in $TargetUsers ) {
+    $TargetUser | Get-DirectReport
+ }
 
-####### THIS SCRIPT SPITS OUT A LIST OF INACTIVE USERS WITH MANAGERS STILL ASSIGNED. NEED TO FLIP THIS AROUND SO ITS SPITTING OUT PEOPLE THAT HAVE LEFT THAT STILL HAVE DIRECT REPORTS ASSIGNED. ##############
+# Export $Results as a CSV to C:\Temp
+$Results | Export-Csv -Path "C:\Temp\InactiveUsersWithDirectReports.csv" -NoTypeInformation
