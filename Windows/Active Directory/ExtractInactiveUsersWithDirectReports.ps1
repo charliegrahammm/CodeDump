@@ -74,7 +74,7 @@ Function Get-DirectReport {
      
         PROCESS {
             $UserAccount = Get-ADUser $SamAccountName -Properties DirectReports, DisplayName
-            $UserAccount | Select-Object -ExpandProperty DirectReports | ForEach-Object {
+            $UserAccount | select -ExpandProperty DirectReports | ForEach-Object {
                 $User = Get-ADUser $_ -Properties DirectReports, DisplayName, Title, EmployeeID
                 if ($null -ne $User.EmployeeID) {
                     if (-not $NoRecurse) {
