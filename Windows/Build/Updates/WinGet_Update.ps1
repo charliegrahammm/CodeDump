@@ -19,13 +19,18 @@
 # Change directory to scripts folder in C:\Temp
 Set-Location "C:\Temp\Build"
 
-## Downlaod winget
-Write-Host "Downloading winget..."
-Invoke-WebRequest https://aka.ms/getwinget -OutFile "C:\Temp\Build\Components\winget.msixbundle"
-
-## Install Winget
-Write-Host "Installing winget..."
-Add-AppxPackage -Path "C:\Temp\Build\Components\winget.msixbundle"
+## Download winget if not installed
+try {
+    Write-Host "Checking if winget installed..."
+    winget -v
+    Write-Host "Winget Installed"-ForegroundColor Green
+}
+catch {
+    Write-Host "Winget not installed, downloading..." -ForegroundColor Red
+    Invoke-WebRequest https://aka.ms/getwinget -OutFile "C:\Temp\Build\Components\winget.msixbundle"
+    Write-Host "Installing winget..."
+    Add-AppxPackage -Path "C:\Temp\Build\Components\winget.msixbundle"
+}
 
 # Create wingetupdate function
 function Start-WinGetUpdate {
