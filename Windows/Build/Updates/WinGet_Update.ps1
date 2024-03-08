@@ -19,19 +19,12 @@
 # Change directory to scripts folder in C:\Temp
 Set-Location "C:\Temp\Build"
 
-# Install applications
-## Install VCRedist
-# Write-Host "Installing VCRedist..."
-# Invoke-WebRequest -Uri https://aka.ms/vs/17/release/vc_redist.x64.exe -OutFile "C:\Temp\Build\vc_redist.x64.exe"
-# .\vc_redist.x64.exe /install /quiet /norestart
+## Downlaod winget
+Invoke-WebRequest https://aka.ms/getwinget -OutFile "C:\Temp\Build\Components\winget.msixbundle"
 
-## Install Microsoft.UI.XAML.2.7
-Write-Host "Installing Microsoft.UI.XAML.2.7..."
-Add-AppxPackage -Path "C:\Temp\Build\Components\Microsoft.UI.Xaml.2.7_7.2208.15002.0_x64__8wekyb3d8bbwe.appx"
-
-## Install Microsoft.VCLibs.140.00.UWPDesktop
-Write-Host "Installing Microsoft.VCLibs.140.00.UWPDesktop..."
-Add-AppxPackage -Path "C:\Temp\Build\Components\Microsoft.VCLibs.x64.14.00.Desktop.appx"
+## Install Winget
+Write-Host "Installing Winget..."
+Add-AppxPackage -Path "C:\Temp\Build\Components\winget.msixbundle"
 
 # Create wingetupdate function
 function Start-WinGetUpdate {
@@ -130,8 +123,8 @@ function Start-WinGetUpdate {
         }
         catch {
             Write-Error @"
-   "Message: "$($_.Exception.Message)<code data-enlighter-language="n" class="EnlighterJSRAW">n
-   "Error Line: "$($_.InvocationInfo.Line)</code>
+   "Message: "$($_.Exception.Message)`n
+   "Error Line: "$($_.InvocationInfo.Line)`n
 "@
             break
         }
@@ -160,8 +153,8 @@ function Start-WinGetUpdate {
         catch {
             Write-Error "Something went wrong when trying to install Microsoft.VCLibs..."
             Write-Error @"
-   "Message: "$($_.Exception.Message)<code data-enlighter-language="n" class="EnlighterJSRAW">n
-   "Error Line: "$($_.InvocationInfo.Line)</code>
+   "Message: "$($_.Exception.Message)`n
+   "Error Line: "$($_.InvocationInfo.Line)`n
 "@
             break
         }
@@ -170,13 +163,13 @@ function Start-WinGetUpdate {
     # Starts to check if you have any softwares that needs to be updated
     Write-OutPut "Checks if any software needs to be updated"
     try {
-        WinGet.exe upgrade --all --silent --force --accept-source-agreements
-        Write-Output "Everything is now updated."
+        WinGet.exe upgrade --all --silent --force --accept-source-agreements --disable-interactivity --include-unknown
+        Write-Output "Everything is now completed, you can close this window"
     }
     catch {
         Write-Error @"
-   "Message: "$($_.Exception.Message)<code data-enlighter-language="n" class="EnlighterJSRAW">n
-   "Error Line: "$($_.InvocationInfo.Line)</code>
+   "Message: "$($_.Exception.Message)`n
+   "Error Line: "$($_.InvocationInfo.Line)`n
 "@
     }
 
