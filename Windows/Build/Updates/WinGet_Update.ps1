@@ -20,10 +20,11 @@
 Set-Location "C:\Temp\Build"
 
 ## Downlaod winget
+Write-Host "Downloading winget..."
 Invoke-WebRequest https://aka.ms/getwinget -OutFile "C:\Temp\Build\Components\winget.msixbundle"
 
 ## Install Winget
-Write-Host "Installing Winget..."
+Write-Host "Installing winget..."
 Add-AppxPackage -Path "C:\Temp\Build\Components\winget.msixbundle"
 
 # Create wingetupdate function
